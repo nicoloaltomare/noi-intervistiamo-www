@@ -1,0 +1,22 @@
+<section class="hero-section" [style.background-image]="config.backgroundImage ? 'url(' + config.backgroundImage + ')' : null">
+  <div class="hero-overlay" *ngIf="config.backgroundImage"></div>
+
+  <div class="hero-container">
+    <div class="hero-content" [style.animation-delay]="(config.animationDelay || 0) + 'ms'">
+      <h1 class="hero-title">{{ config.title }}</h1>
+      <p class="hero-subtitle">{{ config.subtitle }}</p>
+      <div class="hero-description">
+        <p>{{ config.description }}</p>
+      </div>
+
+      <div class="hero-actions">
+        <ng-content select="[slot=actions]"></ng-content>
+      </div>
+    </div>
+  </div>
+
+  <!-- Particles Effect -->
+  <div class="particles" *ngIf="config.showParticles">
+    <div class="particle" *ngFor="let item of [1,2,3,4,5,6,7,8,9,10]"></div>
+  </div>
+</section>

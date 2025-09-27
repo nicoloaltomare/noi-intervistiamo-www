@@ -1,0 +1,115 @@
+<app-public-layout>
+
+  <!-- Hero Section -->
+  <app-hero-section
+    *ngIf="heroConfig"
+    [config]="heroConfig"
+    [onAction]="onHeroAction.bind(this)">
+
+    <div slot="actions" class="hero-buttons">
+      <button
+        class="btn btn-primary btn-lg"
+        (click)="onHeroAction('login')">
+        <i class="fas fa-sign-in-alt"></i>
+        {{ homeConfig?.cta?.primaryButton?.text || 'Accedi' }}
+      </button>
+
+      <button
+        class="btn btn-outline-light btn-lg"
+        (click)="onHeroAction('scroll-to-features')">
+        <i class="fas fa-info-circle"></i>
+        {{ homeConfig?.cta?.secondaryButton?.text || 'Scopri di Più' }}
+      </button>
+    </div>
+  </app-hero-section>
+
+  <!-- Features Section Placeholder -->
+  <section id="features" class="features-section">
+    <div class="container">
+      <div class="text-center mb-5">
+        <h2>{{ homeConfig?.features?.sectionTitle || 'Funzionalità' }}</h2>
+        <p class="lead">{{ homeConfig?.features?.sectionSubtitle || 'Tutto quello che serve' }}</p>
+      </div>
+
+      <div class="row" *ngIf="homeConfig?.features?.items">
+        <div class="col-md-6 col-lg-3 mb-4" *ngFor="let feature of homeConfig.features.items">
+          <div class="feature-card text-center">
+            <div class="feature-icon">
+              <i [class]="feature.icon" [style.color]="'var(--portal-' + feature.color + ')'"></i>
+            </div>
+            <h4>{{ feature.title }}</h4>
+            <p>{{ feature.description }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats Section Placeholder -->
+  <section class="stats-section portal-bg-secondary">
+    <div class="container">
+      <div class="text-center mb-5">
+        <h2 class="text-white">{{ homeConfig?.stats?.sectionTitle || 'I Nostri Numeri' }}</h2>
+      </div>
+
+      <div class="row" *ngIf="homeConfig?.stats?.items">
+        <div class="col-md-3 col-sm-6 mb-4" *ngFor="let stat of homeConfig.stats.items">
+          <div class="stat-card text-center text-white">
+            <div class="stat-icon">
+              <i [class]="stat.icon"></i>
+            </div>
+            <h3 class="stat-number">{{ stat.number }}</h3>
+            <p class="stat-label">{{ stat.label }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BVTech Services Section -->
+  <section class="services-section" *ngIf="homeConfig?.services">
+    <div class="container">
+      <div class="text-center mb-5">
+        <h2>{{ homeConfig.services.sectionTitle }}</h2>
+        <p class="lead">{{ homeConfig.services.sectionSubtitle }}</p>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6 col-lg-4 mb-4" *ngFor="let service of homeConfig.services.items">
+          <div class="service-card text-center h-100">
+            <div class="service-icon">
+              <i [class]="service.icon" [style.color]="'var(--portal-' + service.color + ')'"></i>
+            </div>
+            <h4>{{ service.name }}</h4>
+            <p>{{ service.description }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BVTech Sectors Section -->
+  <section class="sectors-section portal-bg-light" *ngIf="homeConfig?.sectors">
+    <div class="container">
+      <div class="text-center mb-5">
+        <h2>{{ homeConfig.sectors.sectionTitle }}</h2>
+        <p class="lead">{{ homeConfig.sectors.sectionSubtitle }}</p>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6 col-lg-3 mb-4" *ngFor="let sector of homeConfig.sectors.items">
+          <div class="sector-card text-center h-100">
+            <div class="sector-icon">
+              <i [class]="sector.icon"></i>
+            </div>
+            <h5>{{ sector.name }}</h5>
+            <p class="small">{{ sector.description }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</app-public-layout>
+
+<!-- Login Modal -->
+<app-login-modal #loginModal></app-login-modal>

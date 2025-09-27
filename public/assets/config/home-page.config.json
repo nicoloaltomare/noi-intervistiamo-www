@@ -1,0 +1,26 @@
+{
+  "hero": {
+    "title": "BVTech Interview System",
+    "subtitle": "",
+    "description": "Piattaforma avanzata per la gestione di colloqui e valutazione delle competenze tecniche sviluppata da BVTech. Sistema sicuro e affidabile per l'ottimizzazione del processo di selezione in settori strategici dell'industria digitale."
+  },
+  "features": {
+    "sectionTitle": "Funzionalità Principali",
+    "sectionSubtitle": "Tutto quello che serve per gestire il processo di selezione"
+  },
+  "stats": {
+    "sectionTitle": "I Nostri Numeri"
+  },
+  "sectors": {
+    "sectionTitle": "Settori di Eccellenza BVTech",
+    "sectionSubtitle": "Partner ideale con profonda conoscenza dei settori industriali strategici"
+  },
+  "services": {
+    "sectionTitle": "Servizi BVTech",
+    "sectionSubtitle": "Competenze specialistiche per la digitalizzazione sicura"
+  },
+  "cta": {
+    "title": "Pronto per Iniziare?",
+    "subtitle": "Accedi al sistema per gestire i tuoi colloqui e candidati"
+  }
+}

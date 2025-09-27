@@ -1,0 +1,196 @@
+/* Header Bar Component Styles */
+.header-bar {
+  position: relative;
+  width: 100%;
+  box-shadow: 0 2px 4px var(--portal-shadow-light);
+  z-index: 1000;
+  background-color: var(--portal-bg-primary);
+  color: var(--portal-text-primary);
+}
+
+.header-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--portal-spacing-md);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--portal-header-height);
+}
+
+.logo-section {
+  display: flex;
+  align-items: center;
+  gap: var(--portal-spacing-sm);
+
+  .logo {
+    height: 40px;
+    width: auto;
+  }
+
+  .title {
+    font-size: var(--portal-font-size-xl);
+    font-weight: var(--portal-font-weight-semibold);
+    margin: 0;
+    color: var(--portal-text-primary);
+  }
+}
+
+.navigation {
+  &.desktop-nav {
+    display: flex;
+    gap: var(--portal-spacing-xl);
+
+    @media (max-width: 768px) {
+      display: none;
+    }
+  }
+
+  &.mobile-nav {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--portal-bg-primary);
+    flex-direction: column;
+    padding: var(--portal-spacing-md);
+    box-shadow: 0 2px 4px var(--portal-shadow-light);
+    border-top: 1px solid var(--portal-border-primary);
+
+    &.open {
+      display: flex;
+    }
+
+    @media (min-width: 769px) {
+      display: none !important;
+    }
+  }
+
+  .nav-link {
+    text-decoration: none;
+    color: var(--portal-text-primary);
+    font-weight: var(--portal-font-weight-medium);
+    padding: var(--portal-spacing-sm) 0;
+    border-bottom: 2px solid transparent;
+    transition: all var(--portal-transition-speed) ease;
+
+    &:hover {
+      border-bottom-color: var(--portal-primary);
+      color: var(--portal-primary);
+    }
+
+    &.active {
+      border-bottom-color: var(--portal-primary);
+      color: var(--portal-primary);
+    }
+  }
+}
+
+.user-section {
+  position: relative;
+}
+
+.user-menu {
+  position: relative;
+
+  .user-menu-toggle {
+    display: flex;
+    align-items: center;
+    gap: var(--portal-spacing-sm);
+    background: none;
+    border: none;
+    color: var(--portal-text-primary);
+    cursor: pointer;
+    padding: var(--portal-spacing-sm);
+    border-radius: var(--portal-border-radius-small);
+    transition: background-color var(--portal-transition-speed) ease;
+
+    &:hover {
+      background-color: var(--portal-bg-secondary);
+    }
+
+    .user-icon {
+      font-size: var(--portal-font-size-xl);
+    }
+
+    .dropdown-arrow {
+      font-size: var(--portal-font-size-xs);
+      transition: transform var(--portal-transition-speed) ease;
+    }
+  }
+
+  &.open .dropdown-arrow {
+    transform: rotate(180deg);
+  }
+
+  .user-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: var(--portal-bg-primary);
+    border: 1px solid var(--portal-border-primary);
+    border-radius: var(--portal-border-radius-small);
+    box-shadow: 0 4px 6px var(--portal-shadow-medium);
+    min-width: 160px;
+    z-index: 1001;
+
+    .dropdown-item {
+      display: block;
+      padding: var(--portal-spacing-sm) var(--portal-spacing-md);
+      text-decoration: none;
+      color: var(--portal-text-primary);
+      border-bottom: 1px solid var(--portal-border-secondary);
+      transition: background-color var(--portal-transition-speed) ease;
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      &:hover {
+        background-color: var(--portal-bg-secondary);
+        color: var(--portal-primary);
+      }
+    }
+  }
+}
+
+.mobile-menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: var(--portal-spacing-sm);
+  color: var(--portal-text-primary);
+
+  @media (max-width: 768px) {
+    display: block;
+  }
+
+  .hamburger {
+    display: block;
+    width: 20px;
+    height: 2px;
+    background: currentColor;
+    position: relative;
+
+    &::before,
+    &::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 2px;
+      background: currentColor;
+      left: 0;
+      transition: transform var(--portal-transition-speed) ease;
+    }
+
+    &::before {
+      top: -6px;
+    }
+
+    &::after {
+      top: 6px;
+    }
+  }
+}

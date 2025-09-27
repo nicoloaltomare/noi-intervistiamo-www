@@ -1,0 +1,12 @@
+<div class="public-layout">
+  <!-- Main Content -->
+  <main class="main-content">
+    <ng-content></ng-content>
+  </main>
+
+  <!-- Footer -->
+  <app-footer
+    *ngIf="footerConfig"
+    [config]="footerConfig">
+  </app-footer>
+</div>

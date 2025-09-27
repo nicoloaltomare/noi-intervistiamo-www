@@ -1,0 +1,14 @@
+{
+  "branding": {
+    "title": "Noi Intervistiamo",
+    "subtitle": "Interview Management System"
+  },
+  "areaSelection": {
+    "title": "Seleziona Area di Accesso",
+    "subtitle": "Scegli l'area in cui desideri accedere"
+  },
+  "passwordRecovery": {
+    "title": "Recupera Password",
+    "subtitle": "Inserisci la tua email per ricevere il link di recupero"
+  }
+}

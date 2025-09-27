@@ -1,0 +1,44 @@
+<footer class="footer" [style.background-color]="config.backgroundColor" [style.color]="config.textColor">
+  <div class="footer-container">
+    <div class="footer-content">
+      <!-- Company Info -->
+      <div class="footer-section company-info">
+        <h3>{{ config.companyInfo.name }}</h3>
+        <div class="contact-info">
+          <p>{{ config.companyInfo.address }}</p>
+          <p><a [href]="'tel:' + config.companyInfo.phone" [style.color]="config.linkColor">{{ config.companyInfo.phone }}</a></p>
+          <p><a [href]="'mailto:' + config.companyInfo.email" [style.color]="config.linkColor">{{ config.companyInfo.email }}</a></p>
+        </div>
+        <!-- Social Links -->
+        <div class="social-links" *ngIf="config.socialLinks.length > 0">
+          <a
+            *ngFor="let social of config.socialLinks"
+            [href]="social.url"
+            target="_blank"
+            rel="noopener noreferrer"
+            [attr.aria-label]="social.platform"
+            class="social-link">
+            <i [class]="social.icon"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- Link Sections -->
+      <div class="footer-section" *ngFor="let section of config.links">
+        <h4>{{ section.title }}</h4>
+        <ul class="footer-links">
+          <li *ngFor="let link of section.items">
+            <a [routerLink]="link.route" [style.color]="config.linkColor">{{ link.label }}</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Copyright -->
+    <div class="footer-bottom">
+      <div class="copyright">
+        <p>{{ config.copyright }}</p>
+      </div>
+    </div>
+  </div>
+</footer>

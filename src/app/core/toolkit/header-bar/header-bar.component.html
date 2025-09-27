@@ -1,0 +1,56 @@
+<header class="header-bar" [style.background-color]="config.backgroundColor" [style.color]="config.textColor">
+  <div class="header-container">
+    <!-- Logo -->
+    <div class="logo-section">
+      <img [src]="config.logo.src" [alt]="config.logo.alt" class="logo">
+      <h1 class="title">{{ config.title }}</h1>
+    </div>
+
+    <!-- Navigation (Desktop) -->
+    <nav class="navigation desktop-nav" *ngIf="config.navigation.length > 0">
+      <a
+        *ngFor="let item of config.navigation"
+        [routerLink]="item.route"
+        class="nav-link"
+        routerLinkActive="active">
+        {{ item.label }}
+      </a>
+    </nav>
+
+    <!-- User Menu -->
+    <div class="user-section" *ngIf="config.showUserMenu">
+      <div class="user-menu" [class.open]="showMobileMenu">
+        <button class="user-menu-toggle" (click)="toggleMobileMenu()">
+          <span class="user-icon">👤</span>
+          <span class="dropdown-arrow">▼</span>
+        </button>
+        <div class="user-dropdown" *ngIf="showMobileMenu && config.userMenuItems">
+          <a
+            *ngFor="let item of config.userMenuItems"
+            [routerLink]="item.route"
+            (click)="item.action && onUserMenuAction(item.action)"
+            class="dropdown-item">
+            {{ item.label }}
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile Menu Toggle -->
+    <button class="mobile-menu-toggle" (click)="toggleMobileMenu()" *ngIf="config.navigation.length > 0">
+      <span class="hamburger"></span>
+    </button>
+  </div>
+
+  <!-- Mobile Navigation -->
+  <nav class="navigation mobile-nav" [class.open]="showMobileMenu" *ngIf="config.navigation.length > 0">
+    <a
+      *ngFor="let item of config.navigation"
+      [routerLink]="item.route"
+      class="nav-link"
+      routerLinkActive="active"
+      (click)="showMobileMenu = false">
+      {{ item.label }}
+    </a>
+  </nav>
+</header>

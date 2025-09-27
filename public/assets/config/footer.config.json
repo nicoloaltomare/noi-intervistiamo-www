@@ -1,0 +1,11 @@
+{
+  "public": {
+    "companyInfo": {
+      "name": "Noi Intervistiamo",
+      "address": "Via Roma 123, 00100 Roma, Italia",
+      "phone": "+39 06 123456789",
+      "email": "info@noiintervistiamo.it"
+    },
+    "copyright": "© 2025 Noi Intervistiamo. Tutti i diritti riservati."
+  }
+}

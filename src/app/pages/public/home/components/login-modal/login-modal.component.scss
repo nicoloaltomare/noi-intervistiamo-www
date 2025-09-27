@@ -1,0 +1,369 @@
+/* Welcome Section (like test-corso) */
+.welcome-section {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.welcome-title {
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--portal-text-primary);
+  margin: 0 0 8px 0;
+  letter-spacing: -0.3px;
+}
+
+.welcome-subtitle {
+  font-size: 15px;
+  color: var(--portal-text-secondary);
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* Auth Form */
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.input-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--portal-text-primary);
+  margin: 0;
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-icon {
+  position: absolute;
+  left: 16px;
+  color: var(--portal-text-secondary);
+  font-size: 16px;
+  z-index: 1;
+}
+
+.form-input {
+  width: 100%;
+  padding: 10px 10px 10px 48px;
+  border: 1px solid var(--portal-border-primary);
+  border-radius: 12px;
+  font-size: 16px;
+  background: var(--portal-bg-primary);
+  transition: all 0.15s ease-out;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.form-input:focus {
+  border-color: var(--portal-primary);
+  box-shadow: 0 0 0 3px rgba(0, 77, 115, 0.1);
+}
+
+.form-input::placeholder {
+  color: var(--portal-text-muted);
+}
+
+/* Submit Button */
+.submit-button {
+  width: 100%;
+  padding: 16px 24px;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  position: relative;
+  overflow: hidden;
+}
+
+.submit-button.primary {
+  background: var(--portal-primary);
+  color: white;
+}
+
+.submit-button.primary:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 51, 84, 0.25);
+}
+
+.submit-button.secondary {
+  background: var(--portal-secondary);
+  color: white;
+}
+
+.submit-button.secondary:hover:not(:disabled) {
+  background: var(--portal-secondary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px var(--portal-shadow-medium);
+}
+
+.submit-button:disabled {
+  background: var(--portal-secondary);
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.button-content,
+.button-loading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.loading-spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Form Actions */
+.form-actions {
+  text-align: center;
+  margin-top: 8px;
+}
+
+.link-button {
+  background: none;
+  border: none;
+  color: var(--portal-primary);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  border-radius: 6px;
+}
+
+.link-button:hover {
+  color: var(--portal-primary-hover);
+  background: var(--portal-bg-secondary);
+}
+
+/* Areas Selection */
+.areas-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.areas-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.area-option {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  border: 2px solid var(--portal-border-primary);
+  border-radius: 16px;
+  background: var(--portal-bg-primary);
+  cursor: pointer;
+  transition: all var(--portal-transition-speed);
+  text-align: left;
+  width: 100%;
+}
+
+.area-option:hover {
+  border-color: var(--portal-primary);
+  background: var(--portal-bg-secondary);
+  transform: translateY(-2px);
+  box-shadow: var(--portal-shadow-medium);
+}
+
+.area-option .area-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: var(--portal-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 20px;
+  color: white;
+}
+
+.area-details {
+  flex: 1;
+}
+
+.area-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--portal-text-primary);
+  margin: 0 0 4px 0;
+}
+
+.area-description {
+  font-size: 14px;
+  color: var(--portal-text-secondary);
+  margin: 0;
+  line-height: 1.4;
+}
+
+.area-arrow {
+  color: var(--portal-text-secondary);
+  font-size: 16px;
+  transition: all var(--portal-transition-speed);
+}
+
+.area-option:hover .area-arrow {
+  color: var(--portal-primary);
+  transform: translateX(4px);
+}
+
+.area-actions {
+  text-align: center;
+  margin-top: 8px;
+}
+
+/* Alert Messages */
+.alert {
+  padding: 16px 20px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  margin-top: 20px;
+  border: 1px solid transparent;
+}
+
+.error-alert {
+  background: var(--portal-bg-secondary);
+  color: var(--portal-danger);
+  border-color: var(--portal-danger);
+}
+
+.success-alert {
+  background: var(--portal-bg-secondary);
+  color: var(--portal-success);
+  border-color: var(--portal-success);
+}
+
+/* Modal Footer (like test-corso) */
+.footer-content {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.system-version,
+.support-contact {
+  font-size: 12px;
+  color: var(--portal-text-secondary);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.support-link {
+  color: var(--portal-primary);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.support-link:hover {
+  text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .brand-title {
+    font-size: 28px;
+  }
+
+  .auth-form {
+    gap: 20px;
+  }
+
+  .form-input {
+    padding: 14px 18px 14px 46px;
+    font-size: 16px; /* iOS zoom prevention */
+  }
+
+  .submit-button {
+    padding: 14px 20px;
+    min-height: 52px;
+  }
+
+  .area-option {
+    padding: 16px;
+  }
+
+  .area-option .area-icon {
+    width: 44px;
+    height: 44px;
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .brand-title {
+    font-size: 24px;
+  }
+
+  .brand-subtitle {
+    font-size: 13px;
+  }
+
+  .form-input {
+    padding: 12px 16px 12px 42px;
+  }
+
+  .submit-button {
+    padding: 12px 18px;
+    min-height: 48px;
+    font-size: 15px;
+  }
+
+  .area-option {
+    padding: 14px;
+    gap: 12px;
+  }
+
+  .area-option .area-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 16px;
+  }
+
+  .area-title {
+    font-size: 15px;
+  }
+
+  .area-description {
+    font-size: 13px;
+  }
+}

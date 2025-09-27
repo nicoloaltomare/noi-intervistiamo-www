@@ -1,0 +1,15 @@
+/* Public Layout Component Styles */
+.public-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--portal-bg-primary);
+}
+
+.main-content {
+  flex: 1;
+
+  @media (max-width: 768px) {
+    padding: var(--portal-spacing-md) 0;
+  }
+}

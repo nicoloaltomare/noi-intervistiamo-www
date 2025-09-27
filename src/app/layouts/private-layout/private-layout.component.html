@@ -1,0 +1,26 @@
+<div class="private-layout">
+  <!-- Sidebar -->
+  <app-sidebar
+    *ngIf="sidebarConfig"
+    [config]="sidebarConfig"
+    [collapsed]="sidebarCollapsed">
+  </app-sidebar>
+
+  <!-- Main Area -->
+  <div class="main-area" [class.sidebar-collapsed]="sidebarCollapsed">
+    <!-- Header Bar -->
+    <app-header-bar
+      *ngIf="headerConfig"
+      [config]="headerConfig"
+      variant="private"
+      class="private-header">
+    </app-header-bar>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="content-container">
+        <ng-content></ng-content>
+      </div>
+    </main>
+  </div>
+</div>

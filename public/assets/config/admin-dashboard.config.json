@@ -1,0 +1,9 @@
+{
+  "sidebar": {
+    "title": "Pannello Amministratore"
+  },
+  "dashboard": {
+    "title": "Dashboard Amministratore",
+    "subtitle": "Panoramica generale del sistema"
+  }
+}

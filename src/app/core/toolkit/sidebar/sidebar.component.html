@@ -1,0 +1,72 @@
+<aside
+  class="sidebar"
+  [class.collapsed]="collapsed"
+  [style.background-color]="config.backgroundColor"
+  [style.color]="config.textColor"
+  [style.width]="collapsed ? config.collapsedWidth : config.width">
+
+  <!-- Sidebar Header -->
+  <div class="sidebar-header">
+    <div class="logo-section" *ngIf="!collapsed">
+      <img [src]="config.logo.src" [alt]="config.logo.alt" class="sidebar-logo">
+      <h2 class="sidebar-title">{{ config.title }}</h2>
+    </div>
+    <button class="collapse-toggle" (click)="toggleCollapse()">
+      <i [class]="collapsed ? 'fas fa-chevron-right' : 'fas fa-chevron-left'"></i>
+    </button>
+  </div>
+
+  <!-- Navigation Menu -->
+  <nav class="sidebar-nav">
+    <ul class="nav-list">
+      <li *ngFor="let item of config.menuItems" class="nav-item">
+        <!-- Main Menu Item -->
+        <div class="nav-link-wrapper">
+          <a
+            [routerLink]="!hasChildren(item) ? item.route : null"
+            [class.disabled]="hasChildren(item)"
+            class="nav-link"
+            [class.active]="item.active"
+            routerLinkActive="active"
+            (click)="hasChildren(item) && toggleSubmenu(item)">
+            <i [class]="item.icon" class="nav-icon"></i>
+            <span class="nav-text" *ngIf="!collapsed">{{ item.label }}</span>
+            <i
+              *ngIf="hasChildren(item) && !collapsed"
+              [class]="isExpanded(item) ? 'fas fa-chevron-down' : 'fas fa-chevron-right'"
+              class="submenu-arrow"></i>
+          </a>
+        </div>
+
+        <!-- Submenu -->
+        <ul
+          *ngIf="hasChildren(item) && !collapsed && isExpanded(item)"
+          class="submenu">
+          <li *ngFor="let child of item.children" class="submenu-item">
+            <a
+              [routerLink]="child.route"
+              class="submenu-link"
+              routerLinkActive="active">
+              <i [class]="child.icon" class="submenu-icon"></i>
+              <span class="submenu-text">{{ child.label }}</span>
+            </a>
+          </li>
+        </ul>
+
+        <!-- Collapsed Submenu (Tooltip) -->
+        <div
+          *ngIf="hasChildren(item) && collapsed"
+          class="tooltip-menu">
+          <div class="tooltip-content">
+            <h4>{{ item.label }}</h4>
+            <ul>
+              <li *ngFor="let child of item.children">
+                <a [routerLink]="child.route">{{ child.label }}</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </nav>
+</aside>
