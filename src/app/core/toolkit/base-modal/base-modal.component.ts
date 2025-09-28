@@ -22,7 +22,6 @@ export interface ModalConfig {
   standalone: true,
   imports: [CommonModule],
   template: `
-    <!-- Modal Overlay -->
     <div
       class="modal-overlay"
       [class.visible]="isVisible()"
@@ -36,7 +35,6 @@ export interface ModalConfig {
         [class.show]="isVisible()"
         (click)="$event.stopPropagation()">
 
-        <!-- Modal Header (simplified like test-corso) -->
         <div
           *ngIf="config.showHeader !== false"
           class="modal-header"
@@ -59,14 +57,12 @@ export interface ModalConfig {
           </button>
         </div>
 
-        <!-- Modal Body -->
         <div
           class="modal-body"
           [class]="config.bodyClass || ''">
           <ng-content></ng-content>
         </div>
 
-        <!-- Modal Footer -->
         <div
           *ngIf="config.showFooter"
           class="modal-footer"
@@ -118,7 +114,6 @@ export interface ModalConfig {
       transform: scale(1) translateY(0);
     }
 
-    /* Modal Sizes */
     .modal-container.modal-sm {
       width: 100%;
       max-width: 420px;
@@ -144,7 +139,6 @@ export interface ModalConfig {
       height: 90vh;
     }
 
-    /* Header */
     .modal-header {
       background: var(--portal-primary);
       color: white;
@@ -203,7 +197,6 @@ export interface ModalConfig {
       background: rgba(255, 255, 255, 0.2);
     }
 
-    /* Body */
     .modal-body {
       padding: 32px;
       flex: 1;
@@ -211,7 +204,6 @@ export interface ModalConfig {
       background: white;
     }
 
-    /* Footer */
     .modal-footer {
       background: var(--portal-bg-primary);
       padding: 20px 32px;
@@ -222,7 +214,6 @@ export interface ModalConfig {
       gap: 4px;
     }
 
-    /* Responsive Design */
     @media (max-width: 768px) {
       .modal-overlay {
         padding: 10px;

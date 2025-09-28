@@ -45,7 +45,6 @@ export class HeaderBarComponent implements OnInit {
 
   onUserMenuAction(action: string) {
     if (action === 'logout') {
-      // Emit logout event or handle logout logic
       console.log('Logout action triggered');
     }
   }

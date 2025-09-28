@@ -26,7 +26,6 @@ export class PublicLayoutComponent implements OnInit {
       const headerData = await headerResponse.json();
       const footerData = await footerResponse.json();
 
-      // Combine loaded titles with hardcoded configuration
       this.headerConfig = {
         title: headerData.public?.title || 'Noi Intervistiamo',
         logo: {
@@ -113,7 +112,6 @@ export class PublicLayoutComponent implements OnInit {
       };
     } catch (error) {
       console.error('Error loading configurations:', error);
-      // Fallback configuration
       this.headerConfig = {
         title: 'Noi Intervistiamo',
         logo: {

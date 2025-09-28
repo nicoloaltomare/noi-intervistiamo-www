@@ -28,7 +28,6 @@ export class HomeComponent implements OnInit {
       if (response.ok) {
         const configData = await response.json();
 
-        // Combine loaded titles/subtitles with hardcoded configuration
         this.heroConfig = {
           title: configData.hero?.title || "BVTech Interview System",
           subtitle: configData.hero?.subtitle || "Security Skills in all key industries",

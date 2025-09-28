@@ -1,4 +1,4 @@
-import { Injectable, signal, ComponentRef, ViewContainerRef, ApplicationRef, createComponent, EnvironmentInjector, inject } from '@angular/core';
+import { Injectable, signal, ComponentRef, ApplicationRef, createComponent, EnvironmentInjector, inject } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { ModalConfig } from '../toolkit/base-modal/base-modal.component';
 
@@ -45,27 +45,22 @@ export class ModalService {
   private injector = inject(EnvironmentInjector);
   private activeModals = signal<ComponentRef<any>[]>([]);
 
-  // Show a programmatic modal with custom content
   showModal(config: ProgrammaticModalConfig): Observable<any> {
     const subject = new Subject<any>();
 
-    // Create modal component dynamically
     const modalRef = this.createModalComponent(config);
 
-    // Handle modal close
     modalRef.instance.closeModal.subscribe(() => {
       this.destroyModal(modalRef);
       subject.next(false);
       subject.complete();
     });
 
-    // Add to active modals
     this.activeModals.update(modals => [...modals, modalRef]);
 
     return subject.asObservable();
   }
 
-  // Show confirmation modal
   showConfirm(options: ConfirmModalOptions): Observable<boolean> {
     const subject = new Subject<boolean>();
 
@@ -108,7 +103,6 @@ export class ModalService {
     return subject.asObservable();
   }
 
-  // Show info modal
   showInfo(options: InfoModalOptions): Observable<void> {
     const subject = new Subject<void>();
 
@@ -143,7 +137,6 @@ export class ModalService {
     return subject.asObservable();
   }
 
-  // Close all modals
   closeAll(): void {
     this.activeModals().forEach(modal => {
       this.destroyModal(modal);
@@ -151,7 +144,6 @@ export class ModalService {
     this.activeModals.set([]);
   }
 
-  // Close the most recent modal
   closeLast(): void {
     const modals = this.activeModals();
     if (modals.length > 0) {
@@ -162,13 +154,10 @@ export class ModalService {
   }
 
   private createModalComponent(config: ProgrammaticModalConfig): ComponentRef<any> {
-    // This would create a dynamic modal component
-    // For now, we'll create a simple programmatic modal component
     return this.createProgrammaticModal(config);
   }
 
   private createProgrammaticModal(config: ProgrammaticModalConfig): ComponentRef<any> {
-    // Create the programmatic modal component
     const componentRef = createComponent(ProgrammaticModalComponent, {
       environmentInjector: this.injector
     });
@@ -176,7 +165,6 @@ export class ModalService {
     componentRef.instance.config = config;
     componentRef.instance.isVisible.set(true);
 
-    // Attach to DOM
     this.appRef.attachView(componentRef.hostView);
     document.body.appendChild(componentRef.location.nativeElement);
 
@@ -194,7 +182,6 @@ export class ModalService {
   private destroyModal(modalRef: ComponentRef<any>): void {
     modalRef.instance.isVisible.set(false);
 
-    // Wait for animation then destroy
     setTimeout(() => {
       this.appRef.detachView(modalRef.hostView);
       modalRef.destroy();
@@ -224,7 +211,6 @@ export class ModalService {
   }
 }
 
-// Programmatic Modal Component for dynamic content
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BaseModalComponent } from '../toolkit/base-modal/base-modal.component';

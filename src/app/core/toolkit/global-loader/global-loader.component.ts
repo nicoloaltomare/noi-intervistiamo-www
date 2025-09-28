@@ -7,14 +7,12 @@ import { LoadingService } from '../../services/loading.service';
   standalone: true,
   imports: [CommonModule],
   template: `
-    <!-- Global Loading Overlay -->
     <div
       class="global-loader-overlay"
       [class.visible]="loadingService.isLoading()"
       [style.display]="loadingService.isLoading() ? 'flex' : 'none'">
 
       <div class="loader-container">
-        <!-- Spinner -->
         <div class="loader-spinner">
           <div class="spinner-ring"></div>
           <div class="spinner-ring"></div>
@@ -22,7 +20,6 @@ import { LoadingService } from '../../services/loading.service';
           <div class="spinner-ring"></div>
         </div>
 
-        <!-- Loading Text -->
         <div class="loader-text">
           <p class="loading-message">Caricamento in corso...</p>
           <p class="loading-subtitle">Attendere prego</p>
@@ -148,7 +145,6 @@ import { LoadingService } from '../../services/loading.service';
       opacity: 0.8;
     }
 
-    /* Mobile responsive */
     @media (max-width: 480px) {
       .loader-container {
         padding: 32px 24px;

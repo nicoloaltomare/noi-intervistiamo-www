@@ -17,12 +17,10 @@ type ViewType = 'login' | 'areas' | 'recovery';
       [config]="modalConfig()"
       (closeModal)="onClose()">
 
-      <!-- Welcome Section -->
       <div class="welcome-section">
         <h2 class="welcome-title">{{ getTitle() }}</h2>
         <p class="welcome-subtitle">{{ getSubtitle() }}</p>
       </div>
-      <!-- Login Form -->
       <form
         *ngIf="currentView() === 'login'"
         #loginForm="ngForm"
@@ -87,7 +85,6 @@ type ViewType = 'login' | 'areas' | 'recovery';
         </div>
       </form>
 
-      <!-- Area Selection -->
       <div
         *ngIf="currentView() === 'areas'"
         class="areas-container">
@@ -125,7 +122,6 @@ type ViewType = 'login' | 'areas' | 'recovery';
         </div>
       </div>
 
-      <!-- Password Recovery -->
       <form
         *ngIf="currentView() === 'recovery'"
         #recoveryForm="ngForm"
@@ -170,7 +166,6 @@ type ViewType = 'login' | 'areas' | 'recovery';
         </div>
       </form>
 
-      <!-- Alert Messages -->
       <div *ngIf="errorMessage()" class="alert error-alert">
         <i class="fas fa-exclamation-circle"></i>
         <span>{{ errorMessage() }}</span>
@@ -181,7 +176,6 @@ type ViewType = 'login' | 'areas' | 'recovery';
         <span>{{ successMessage() }}</span>
       </div>
 
-      <!-- Footer -->
       <div slot="footer" class="footer-content">
         <p class="system-version">
           <i class="fas fa-info-circle"></i>
@@ -233,9 +227,6 @@ export class LoginModalComponent {
 
 
 
-  /**
-   * Public API Methods
-   */
   show(): void {
     this.isVisible.set(true);
     this.resetToLoginView();
@@ -246,9 +237,6 @@ export class LoginModalComponent {
     this.resetAllState();
   }
 
-  /**
-   * Event Handlers
-   */
   onClose(): void {
     this.hide();
   }
@@ -318,9 +306,6 @@ export class LoginModalComponent {
     }, 1500);
   }
 
-  /**
-   * Navigation Methods
-   */
   showPasswordRecovery(): void {
     this.currentView.set('recovery');
     this.clearMessages();
@@ -339,9 +324,6 @@ export class LoginModalComponent {
     this.clearMessages();
   }
 
-  /**
-   * Private Methods
-   */
   private validateLoginForm(): boolean {
     if (!this.credentials.username.trim()) {
       this.errorMessage.set('Username è obbligatorio');
@@ -365,14 +347,12 @@ export class LoginModalComponent {
     }
 
     if (areas.length === 1) {
-      // Login diretto per utenti con una sola area
       this.successMessage.set(`Accesso effettuato nell'area ${areas[0].displayName}`);
       setTimeout(() => {
         this.authService.selectArea(user, areas[0]);
         this.hide();
       }, 1500);
     } else {
-      // Mostra selezione area per utenti multi-area
       this.showAreaSelection(user, areas);
     }
   }
@@ -393,9 +373,6 @@ export class LoginModalComponent {
     this.tempUser.set(null);
   }
 
-  /**
-   * Computed Properties for Welcome Section (like test-corso)
-   */
   protected getTitle(): string {
     switch (this.currentView()) {
       case 'recovery':

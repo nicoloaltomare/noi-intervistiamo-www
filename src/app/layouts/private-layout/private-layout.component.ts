@@ -28,7 +28,6 @@ export class PrivateLayoutComponent implements OnInit {
       const headerData = await headerResponse.json();
       const sidebarData = await sidebarResponse.json();
 
-      // Combine loaded titles with hardcoded configuration
       this.headerConfig = {
         title: headerData.private?.title || 'Dashboard',
         logo: {
@@ -111,7 +110,6 @@ export class PrivateLayoutComponent implements OnInit {
       };
     } catch (error) {
       console.error('Error loading configurations:', error);
-      // Fallback configuration
       this.headerConfig = {
         title: 'Dashboard',
         logo: {

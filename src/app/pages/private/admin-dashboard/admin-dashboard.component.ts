@@ -19,7 +19,6 @@ export class AdminDashboardComponent implements OnInit {
       const response = await fetch('/assets/config/admin-dashboard.config.json');
       const configData = await response.json();
 
-      // Combine hardcoded configuration with loaded titles/subtitles
       this.dashboardConfig = {
         dashboard: {
           title: configData.dashboard?.title || 'Dashboard Amministratore',
@@ -74,7 +73,6 @@ export class AdminDashboardComponent implements OnInit {
       };
     } catch (error) {
       console.error('Error loading admin dashboard configuration:', error);
-      // Fallback to fully hardcoded values
       this.dashboardConfig = {
         dashboard: {
           title: 'Dashboard Amministratore',
@@ -131,7 +129,6 @@ export class AdminDashboardComponent implements OnInit {
   }
 
   getStatValue(statId: string): string {
-    // Mock data for demonstration
     const mockStats: { [key: string]: string } = {
       'total-users': '156',
       'active-interviews': '23',
