@@ -1,0 +1,64 @@
+.admin-layout {
+  min-height: 100vh;
+  background-color: var(--portal-bg-primary);
+  position: relative;
+}
+
+.admin-content {
+  padding-top: 80px; /* Height of admin header */
+  margin-left: 70px; /* Collapsed sidebar width */
+  min-height: 100vh;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Adapt content to expanded sidebar */
+.admin-content.sidebar-expanded {
+  margin-left: 280px; /* Expanded sidebar width */
+}
+
+.content-wrapper {
+  padding: 2rem;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .admin-content {
+    padding-top: 70px;
+    margin-left: 0; /* No sidebar margin on mobile */
+  }
+
+  .admin-content.sidebar-expanded {
+    margin-left: 0; /* Sidebar overlays on mobile */
+  }
+
+  .content-wrapper {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .admin-content {
+    padding-top: 60px;
+    margin-left: 0; /* No sidebar margin on small mobile */
+  }
+
+  .admin-content.sidebar-expanded {
+    margin-left: 0; /* Sidebar overlays on small mobile */
+  }
+
+  .content-wrapper {
+    padding: 1rem;
+  }
+}
+
+/* Ensure content doesn't get hidden behind fixed elements */
+.admin-layout {
+  overflow-x: hidden;
+}
+
+/* Smooth transitions for all elements */
+* {
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}

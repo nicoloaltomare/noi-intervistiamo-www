@@ -1,72 +1,83 @@
-<aside
-  class="sidebar"
-  [class.collapsed]="collapsed"
-  [style.background-color]="config.backgroundColor"
-  [style.color]="config.textColor"
-  [style.width]="collapsed ? config.collapsedWidth : config.width">
-
-  <!-- Sidebar Header -->
-  <div class="sidebar-header">
-    <div class="logo-section" *ngIf="!collapsed">
-      <img [src]="config.logo.src" [alt]="config.logo.alt" class="sidebar-logo">
-      <h2 class="sidebar-title">{{ config.title }}</h2>
+<div class="sidebar-wrapper">
+  <div class="sidebar" [class.collapsed]="!isExpanded()">
+    <!-- Header -->
+    <div class="sidebar-header">
+      <div class="header-content" (click)="isExpanded() ? navigateTo(config.homeRoute) : toggleSidebar()">
+        <i [class]="isExpanded() ? config.headerIcon : 'fas fa-bars'" class="header-icon"></i>
+        <span class="header-title" *ngIf="isExpanded()">{{ config.headerTitle }}</span>
+      </div>
+      <button class="toggle-btn" *ngIf="isExpanded()" (click)="toggleSidebar()">
+        <i class="fas fa-chevron-left"></i>
+      </button>
     </div>
-    <button class="collapse-toggle" (click)="toggleCollapse()">
-      <i [class]="collapsed ? 'fas fa-chevron-right' : 'fas fa-chevron-left'"></i>
-    </button>
-  </div>
 
-  <!-- Navigation Menu -->
-  <nav class="sidebar-nav">
-    <ul class="nav-list">
-      <li *ngFor="let item of config.menuItems" class="nav-item">
-        <!-- Main Menu Item -->
-        <div class="nav-link-wrapper">
-          <a
-            [routerLink]="!hasChildren(item) ? item.route : null"
-            [class.disabled]="hasChildren(item)"
-            class="nav-link"
-            [class.active]="item.active"
-            routerLinkActive="active"
-            (click)="hasChildren(item) && toggleSubmenu(item)">
-            <i [class]="item.icon" class="nav-icon"></i>
-            <span class="nav-text" *ngIf="!collapsed">{{ item.label }}</span>
-            <i
-              *ngIf="hasChildren(item) && !collapsed"
-              [class]="isExpanded(item) ? 'fas fa-chevron-down' : 'fas fa-chevron-right'"
-              class="submenu-arrow"></i>
-          </a>
-        </div>
+    <!-- Menu -->
+    <nav class="sidebar-nav">
+      <ul class="menu-list">
+        <li *ngFor="let item of config.menuItems" class="menu-item">
 
-        <!-- Submenu -->
-        <ul
-          *ngIf="hasChildren(item) && !collapsed && isExpanded(item)"
-          class="submenu">
-          <li *ngFor="let child of item.children" class="submenu-item">
-            <a
-              [routerLink]="child.route"
-              class="submenu-link"
-              routerLinkActive="active">
-              <i [class]="child.icon" class="submenu-icon"></i>
-              <span class="submenu-text">{{ child.label }}</span>
-            </a>
-          </li>
-        </ul>
+          <!-- Voce senza children -->
+          <button *ngIf="!item.children"
+                  class="menu-btn"
+                  [class.active]="isActiveRoute(item.route || '')"
+                  (click)="navigateTo(item.route || '')">
+            <i [class]="item.icon" class="menu-icon"></i>
+            <span class="menu-label" *ngIf="isExpanded()">{{ item.label }}</span>
+          </button>
 
-        <!-- Collapsed Submenu (Tooltip) -->
-        <div
-          *ngIf="hasChildren(item) && collapsed"
-          class="tooltip-menu">
-          <div class="tooltip-content">
-            <h4>{{ item.label }}</h4>
-            <ul>
+          <!-- Voce con children -->
+          <div *ngIf="item.children" class="menu-parent" #menuParent>
+            <button class="menu-btn"
+                    [class.active]="!isExpanded() && hasActiveChild(item)"
+                    (click)="onParentClick(item, menuParent)">
+              <i [class]="item.icon" class="menu-icon"></i>
+              <span class="menu-label" *ngIf="isExpanded()">{{ item.label }}</span>
+              <i class="fas fa-chevron-down arrow"
+                 *ngIf="isExpanded()"
+                 [class.rotated]="isMenuExpanded(item.id)"></i>
+            </button>
+
+            <!-- Sottomenu inline (sidebar espansa) -->
+            <ul class="submenu" *ngIf="isExpanded() && isMenuExpanded(item.id)">
               <li *ngFor="let child of item.children">
-                <a [routerLink]="child.route">{{ child.label }}</a>
+                <button class="submenu-btn"
+                        [class.active]="isActiveRoute(child.route || '')"
+                        (click)="onMenuItemClick(child)">
+                  <i [class]="child.icon" class="submenu-icon"></i>
+                  <span class="submenu-label">{{ child.label }}</span>
+                </button>
               </li>
             </ul>
+
+            <!-- Dropdown (sidebar collassata) -->
+            <div class="dropdown"
+                 *ngIf="!isExpanded() && isMenuExpanded(item.id)"
+                 [style.top.px]="dropdownTop">
+              <div class="dropdown-header">{{ item.label }}</div>
+              <ul class="dropdown-list">
+                <li *ngFor="let child of item.children">
+                  <button class="dropdown-btn"
+                          [class.active]="isActiveRoute(child.route || '')"
+                          (click)="onMenuItemClick(child)">
+                    <i [class]="child.icon" class="dropdown-icon"></i>
+                    <span class="dropdown-label">{{ child.label }}</span>
+                  </button>
+                </li>
+              </ul>
+            </div>
           </div>
-        </div>
-      </li>
-    </ul>
-  </nav>
-</aside>
+
+        </li>
+      </ul>
+    </nav>
+
+    <!-- Footer -->
+    <div class="sidebar-footer" *ngIf="isExpanded() && config.footerText">
+      <i class="fas fa-info-circle"></i>
+      <span>{{ config.footerText }}</span>
+    </div>
+  </div>
+
+  <!-- Overlay per mobile -->
+  <div class="overlay" *ngIf="isExpanded()" (click)="toggleSidebar()"></div>
+</div>

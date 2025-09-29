@@ -3,12 +3,12 @@ import { CommonModule } from '@angular/common';
 import { LoadingService } from '../../services/loading.service';
 
 @Component({
-  selector: 'app-global-loader',
+  selector: 'app-loader',
   standalone: true,
   imports: [CommonModule],
   template: `
     <div
-      class="global-loader-overlay"
+      class="loader-overlay"
       [class.visible]="loadingService.isLoading()"
       [style.display]="loadingService.isLoading() ? 'flex' : 'none'">
 
@@ -28,7 +28,7 @@ import { LoadingService } from '../../services/loading.service';
     </div>
   `,
   styles: [`
-    .global-loader-overlay {
+    .loader-overlay {
       position: fixed;
       top: 0;
       left: 0;
@@ -45,7 +45,7 @@ import { LoadingService } from '../../services/loading.service';
       pointer-events: none;
     }
 
-    .global-loader-overlay.visible {
+    .loader-overlay.visible {
       opacity: 1;
       pointer-events: all;
     }
@@ -193,6 +193,6 @@ import { LoadingService } from '../../services/loading.service';
     }
   `]
 })
-export class GlobalLoaderComponent {
+export class LoaderComponent {
   protected loadingService = inject(LoadingService);
 }

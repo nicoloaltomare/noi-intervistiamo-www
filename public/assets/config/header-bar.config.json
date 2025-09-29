@@ -1,8 +1,30 @@
 {
   "public": {
-    "title": "Noi Intervistiamo"
+    "title": "BVTech Interview System",
+    "logo": {
+      "src": "/assets/images/logo.png",
+      "alt": "BVTech Logo"
+    },
+    "navigation": [],
+    "showUserMenu": false,
+    "backgroundColor": "var(--portal-primary)",
+    "textColor": "white"
   },
-  "private": {
-    "title": "Dashboard"
+  "admin": {
+    "title": "BVTech Interview System",
+    "logo": {
+      "src": "/assets/images/logo.png",
+      "alt": "BVTech Logo"
+    },
+    "navigation": [],
+    "showUserMenu": true,
+    "userMenuItems": [
+      {
+        "label": "Esci",
+        "action": "logout"
+      }
+    ],
+    "backgroundColor": "var(--portal-primary)",
+    "textColor": "white"
   }
 }

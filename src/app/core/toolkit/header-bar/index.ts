@@ -1,0 +1,1 @@
+export { HeaderBarComponent } from './header-bar.component';

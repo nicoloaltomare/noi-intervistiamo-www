@@ -1,0 +1,33 @@
+.hr-layout {
+  position: relative;
+  min-height: 100vh;
+  background-color: var(--portal-bg-primary);
+}
+
+.hr-content {
+  margin-left: 80px;
+  margin-top: 81px;
+  min-height: calc(100vh - 81px);
+  transition: margin-left 0.3s ease;
+  padding: 2rem;
+
+  &.sidebar-expanded {
+    margin-left: 280px;
+  }
+}
+
+.content-wrapper {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+@media (max-width: 768px) {
+  .hr-content {
+    margin-left: 0;
+    padding: 1rem;
+  }
+
+  .hr-content.sidebar-expanded {
+    margin-left: 0;
+  }
+}

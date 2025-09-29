@@ -24,7 +24,7 @@ const mockAuthUsers = [
     firstName: 'Giuseppe',
     lastName: 'Verdi',
     role: 'admin' as const,
-    availableRoles: ['ADMIN', 'HR', 'INTERVIEWER'],
+    availableRoles: ['ADMIN', 'HR', 'INTERVIEWER', 'CANDIDATE'],
     avatar: 'https://ui-avatars.com/api/?name=Giuseppe+Verdi&background=004d73&color=fff',
     lastLogin: new Date(Date.now() - 2 * 60 * 60 * 1000),
     createdAt: new Date('2024-01-15'),
@@ -127,7 +127,7 @@ function generateRefreshToken(): string {
 // POST /noi-intervistiamo/api/auth/login
 router.post('/login', validateBody({
   username: [validators.required],
-  password: [validators.required, (value) => validators.minLength(value, 6, 'password')]
+  password: [validators.required, (value) => validators.minLength(value, 3, 'password')]
 }), (req, res) => {
   const { username, password, rememberMe }: LoginRequest = req.body;
 

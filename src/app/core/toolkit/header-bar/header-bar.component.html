@@ -1,56 +1,74 @@
-<header class="header-bar" [style.background-color]="config.backgroundColor" [style.color]="config.textColor">
-  <div class="header-container">
-    <!-- Logo -->
-    <div class="logo-section">
-      <img [src]="config.logo.src" [alt]="config.logo.alt" class="logo">
-      <h1 class="title">{{ config.title }}</h1>
-    </div>
+<header class="admin-header-bar"
+        [class.sidebar-expanded]="sidebarExpanded"
+        [style.background-color]="config()?.backgroundColor"
+        [style.color]="config()?.textColor"
+        *ngIf="config()">
+  <div class="container-fluid">
+    <div class="row align-items-center">
+      <!-- Logo e Titolo -->
+      <div class="col-auto ms-5">
+        <div class="header-brand d-flex align-items-center" (click)="navigateToHome()">
+          <div class="brand-text">
+            <h1 class="brand-title">{{ config()?.title }}</h1>
+            <p *ngIf="config()?.subtitle" class="brand-subtitle">{{ config()?.subtitle }}</p>
+          </div>
+        </div>
+      </div>
 
-    <!-- Navigation (Desktop) -->
-    <nav class="navigation desktop-nav" *ngIf="config.navigation.length > 0">
-      <a
-        *ngFor="let item of config.navigation"
-        [routerLink]="item.route"
-        class="nav-link"
-        routerLinkActive="active">
-        {{ item.label }}
-      </a>
-    </nav>
+      <!-- Navigazione Principale (se presente) -->
+      <div class="col d-none d-lg-block" *ngIf="config()?.navigation && (config()?.navigation?.length || 0) > 0">
+        <nav class="main-navigation">
+          <ul class="nav-list d-flex list-unstyled mb-0">
+            <li class="nav-item" *ngFor="let item of config()?.navigation">
+              <button class="nav-link" (click)="onNavigationClick(item)">
+                {{ item.label }}
+              </button>
+            </li>
+          </ul>
+        </nav>
+      </div>
 
-    <!-- User Menu -->
-    <div class="user-section" *ngIf="config.showUserMenu">
-      <div class="user-menu" [class.open]="showMobileMenu">
-        <button class="user-menu-toggle" (click)="toggleMobileMenu()">
-          <span class="user-icon">👤</span>
-          <span class="dropdown-arrow">▼</span>
-        </button>
-        <div class="user-dropdown" *ngIf="showMobileMenu && config.userMenuItems">
-          <a
-            *ngFor="let item of config.userMenuItems"
-            [routerLink]="item.route"
-            (click)="item.action && onUserMenuAction(item.action)"
-            class="dropdown-item">
-            {{ item.label }}
-          </a>
+      <!-- User Menu -->
+      <div class="col-auto ms-auto me-5" *ngIf="config()?.showUserMenu">
+        <div class="user-menu dropdown" [class.show]="isDropdownOpen()">
+          <div class="user-info d-flex align-items-center">
+            <!-- User Avatar -->
+            <div class="user-avatar">
+              <div class="avatar-initials">
+                {{ getUserInitials() }}
+              </div>
+            </div>
+
+            <!-- User Greeting -->
+            <span class="user-greeting me-2" *ngIf="currentUser()">
+              Ciao {{ currentUser()?.firstName }}
+            </span>
+
+            <!-- Dropdown Toggle -->
+            <button class="user-dropdown-toggle"
+                    type="button"
+                    (click)="toggleDropdown()"
+                    [attr.aria-expanded]="isDropdownOpen()">
+              <i class="fas fa-chevron-down" [class.rotated]="isDropdownOpen()"></i>
+            </button>
+          </div>
+
+          <!-- Dropdown Menu -->
+          <ul class="dropdown-menu dropdown-menu-end" [class.show]="isDropdownOpen()">
+            <li *ngFor="let item of config()?.userMenuItems">
+              <button class="dropdown-item"
+                      [class.text-danger]="item.action === 'logout'"
+                      (click)="onUserMenuClick(item)">
+                <i class="fas fa-home me-2" *ngIf="item.route === '/dashboard'"></i>
+                <i class="fas fa-sign-out-alt me-2" *ngIf="item.action === 'logout'"></i>
+                <i class="fas fa-user me-2" *ngIf="item.route === '/profile'"></i>
+                <i class="fas fa-cog me-2" *ngIf="item.route === '/settings'"></i>
+                {{ item.label }}
+              </button>
+            </li>
+          </ul>
         </div>
       </div>
     </div>
-
-    <!-- Mobile Menu Toggle -->
-    <button class="mobile-menu-toggle" (click)="toggleMobileMenu()" *ngIf="config.navigation.length > 0">
-      <span class="hamburger"></span>
-    </button>
   </div>
-
-  <!-- Mobile Navigation -->
-  <nav class="navigation mobile-nav" [class.open]="showMobileMenu" *ngIf="config.navigation.length > 0">
-    <a
-      *ngFor="let item of config.navigation"
-      [routerLink]="item.route"
-      class="nav-link"
-      routerLinkActive="active"
-      (click)="showMobileMenu = false">
-      {{ item.label }}
-    </a>
-  </nav>
 </header>

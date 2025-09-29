@@ -1,0 +1,14 @@
+<div class="admin-layout">
+  <!-- Admin Sidebar -->
+  <app-sidebar [config]="adminSidebarConfig" #sidebar></app-sidebar>
+
+  <!-- Admin Header -->
+  <app-header-bar variant="admin" [sidebarExpanded]="sidebar.isExpanded()"></app-header-bar>
+
+  <!-- Main Content Area -->
+  <main class="admin-content" [class.sidebar-expanded]="sidebar.isExpanded()">
+    <div class="content-wrapper">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+</div>

@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { ThemeService } from './core/services/theme.service';
-import { GlobalLoaderComponent } from './core/toolkit/global-loader/global-loader.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, GlobalLoaderComponent],
+  imports: [RouterOutlet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

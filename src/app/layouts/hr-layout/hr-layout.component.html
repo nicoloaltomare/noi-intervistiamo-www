@@ -1,0 +1,14 @@
+<div class="hr-layout">
+  <!-- HR Sidebar -->
+  <app-sidebar [config]="hrSidebarConfig" #sidebar></app-sidebar>
+
+  <!-- HR Header -->
+  <app-header-bar variant="admin" [sidebarExpanded]="sidebar.isExpanded()"></app-header-bar>
+
+  <!-- Main Content Area -->
+  <main class="hr-content" [class.sidebar-expanded]="sidebar.isExpanded()">
+    <div class="content-wrapper">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+</div>

@@ -1,0 +1,14 @@
+<div class="interviewer-layout">
+  <!-- Interviewer Sidebar -->
+  <app-sidebar [config]="interviewerSidebarConfig" #sidebar></app-sidebar>
+
+  <!-- Interviewer Header -->
+  <app-header-bar variant="admin" [sidebarExpanded]="sidebar.isExpanded()"></app-header-bar>
+
+  <!-- Main Content Area -->
+  <main class="interviewer-content" [class.sidebar-expanded]="sidebar.isExpanded()">
+    <div class="content-wrapper">
+      <router-outlet></router-outlet>
+    </div>
+  </main>
+</div>

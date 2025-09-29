@@ -21,7 +21,7 @@ export interface User {
 }
 
 export interface UserArea {
-  role: 'HR' | 'ADMIN' | 'INTERVIEWER';
+  role: 'HR' | 'ADMIN' | 'INTERVIEWER' | 'CANDIDATE';
   displayName: string;
   route: string;
   icon: string;
@@ -49,27 +49,34 @@ export class AuthService {
 
   currentUser = signal<User | null>(null);
 
-  private readonly AREA_DEFINITIONS: Record<'HR' | 'INTERVIEWER' | 'ADMIN', UserArea> = {
+  private readonly AREA_DEFINITIONS: Record<'HR' | 'INTERVIEWER' | 'ADMIN' | 'CANDIDATE', UserArea> = {
     'HR': {
       role: 'HR',
       displayName: 'Risorse Umane',
-      route: '/hr',
+      route: '/private/hr',
       icon: 'fas fa-users',
       description: 'Gestione colloqui conoscitivi e valutazione soft skills'
     },
     'INTERVIEWER': {
       role: 'INTERVIEWER',
       displayName: 'Area Tecnica',
-      route: '/interviews',
-      icon: 'fas fa-code',
+      route: '/private/interviewer',
+      icon: 'fas fa-user-check',
       description: 'Valutazioni tecniche e competenze specifiche'
     },
     'ADMIN': {
       role: 'ADMIN',
       displayName: 'Amministrazione',
-      route: '/admin',
-      icon: 'fas fa-cog',
+      route: '/private/admin',
+      icon: 'fas fa-shield-alt',
       description: 'Gestione sistema e configurazioni avanzate'
+    },
+    'CANDIDATE': {
+      role: 'CANDIDATE',
+      displayName: 'Area Candidato',
+      route: '/private/candidate',
+      icon: 'fas fa-user',
+      description: 'Quiz e feedback sui colloqui'
     }
   };
 
@@ -114,7 +121,7 @@ export class AuthService {
   selectArea(user: User, area: UserArea): void {
     const userWithArea = {
       ...user,
-      currentRole: area.role
+      role: area.role
     };
 
     this.storeUser(userWithArea);
@@ -128,11 +135,11 @@ export class AuthService {
       .pipe(
         tap(() => {
           this.clearAuthState();
-          this.router.navigate(['/']);
+          this.router.navigate(['/home']);
         }),
         catchError(() => {
           this.clearAuthState();
-          this.router.navigate(['/']);
+          this.router.navigate(['/home']);
           return throwError(() => 'Logout failed');
         })
       );
@@ -150,6 +157,14 @@ export class AuthService {
     return availableRoles.map(role =>
       this.AREA_DEFINITIONS[role as keyof typeof this.AREA_DEFINITIONS]
     ).filter(Boolean);
+  }
+
+  getUserArea(role: string): UserArea | undefined {
+    return this.AREA_DEFINITIONS[role as keyof typeof this.AREA_DEFINITIONS];
+  }
+
+  isAuthenticated(): boolean {
+    return this.isAuthenticatedSubject.value;
   }
 
   private setAuthState(user: User, token?: string): void {
