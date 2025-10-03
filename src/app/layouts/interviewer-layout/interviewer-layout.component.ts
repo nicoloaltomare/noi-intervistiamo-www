@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { HeaderBarComponent } from '../../core/toolkit/header-bar';
 import { SidebarComponent, type SidebarConfig } from '../../core/toolkit/sidebar';
+import { BreadcrumbComponent } from '../../core/toolkit/breadcrumb/breadcrumb.component';
+import { BreadcrumbService } from '../../core/services/breadcrumb.service';
 
 @Component({
   selector: 'app-interviewer-layout',
@@ -11,12 +13,15 @@ import { SidebarComponent, type SidebarConfig } from '../../core/toolkit/sidebar
     CommonModule,
     RouterOutlet,
     HeaderBarComponent,
-    SidebarComponent
+    SidebarComponent,
+    BreadcrumbComponent
   ],
   templateUrl: './interviewer-layout.component.html',
   styleUrl: './interviewer-layout.component.scss'
 })
 export class InterviewerLayoutComponent {
+  private breadcrumbService = inject(BreadcrumbService);
+  breadcrumbs$ = this.breadcrumbService.breadcrumbs$;
   interviewerSidebarConfig: SidebarConfig = {
     headerTitle: 'Interviewer Panel',
     headerIcon: 'fas fa-user-check',

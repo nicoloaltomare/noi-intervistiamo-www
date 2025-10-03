@@ -6,6 +6,9 @@ import { errorHandler, notFoundHandler, healthCheck } from './middleware/error.m
 import { rateLimit } from './middleware/validation.middleware';
 import { dashboardRoutes } from './routes/dashboard.routes';
 import { userRoutes } from './routes/user.routes';
+import { roleRoutes } from './routes/role.routes';
+import { departmentRoutes } from './routes/department.routes';
+import datalistRoutes from './routes/datalist.routes';
 import { interviewRoutes } from './routes/interview.routes';
 import { authRoutes } from './routes/auth.routes';
 import { candidateRoutes } from './routes/candidate.routes';
@@ -13,7 +16,7 @@ import { notificationRoutes } from './routes/notification.routes';
 import { fileRoutes } from './routes/file.routes';
 
 const app = express();
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 8081;
 
 // Security and logging middleware
 app.use(helmet());
@@ -49,6 +52,9 @@ app.use((req, res, next) => {
 app.use('/noi-intervistiamo/api/auth', authRoutes);
 app.use('/noi-intervistiamo/api/dashboard', dashboardRoutes);
 app.use('/noi-intervistiamo/api/users', userRoutes);
+app.use('/noi-intervistiamo/api/roles', roleRoutes);
+app.use('/noi-intervistiamo/api/departments', departmentRoutes);
+app.use('/noi-intervistiamo/api/datalist', datalistRoutes);
 app.use('/noi-intervistiamo/api/interviews', interviewRoutes);
 app.use('/noi-intervistiamo/api/candidates', candidateRoutes);
 app.use('/noi-intervistiamo/api/notifications', notificationRoutes);
@@ -71,6 +77,9 @@ app.listen(PORT, () => {
   console.log(`🔐 Auth API: http://localhost:${PORT}/noi-intervistiamo/api/auth`);
   console.log(`📊 Dashboard API: http://localhost:${PORT}/noi-intervistiamo/api/dashboard`);
   console.log(`👥 Users API: http://localhost:${PORT}/noi-intervistiamo/api/users`);
+  console.log(`🎭 Roles API: http://localhost:${PORT}/noi-intervistiamo/api/roles`);
+  console.log(`🏢 Departments API: http://localhost:${PORT}/noi-intervistiamo/api/departments`);
+  console.log(`📋 Datalist API: http://localhost:${PORT}/noi-intervistiamo/api/datalist`);
   console.log(`💼 Interviews API: http://localhost:${PORT}/noi-intervistiamo/api/interviews`);
   console.log(`👤 Candidates API: http://localhost:${PORT}/noi-intervistiamo/api/candidates`);
   console.log(`🔔 Notifications API: http://localhost:${PORT}/noi-intervistiamo/api/notifications`);

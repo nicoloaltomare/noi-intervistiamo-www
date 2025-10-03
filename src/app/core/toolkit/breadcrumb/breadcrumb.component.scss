@@ -1,6 +1,39 @@
 .breadcrumb-nav {
-  margin-bottom: 1.5rem;
-  margin-top: 2rem; /* Maggiore distanza dall'header */
+  position: fixed;
+  top: 81px;
+  left: 80px;
+  right: 0;
+  z-index: 1020;
+  background-color: var(--portal-bg-primary);
+  padding: 0.75rem 2rem 0.5rem 2rem;
+  transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1), top 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.breadcrumb-nav.sidebar-expanded {
+  left: 280px;
+}
+
+@media (max-width: 991px) {
+  .breadcrumb-nav {
+    top: 60px;
+    left: 80px; /* Keep space for collapsed sidebar on tablet/mobile */
+  }
+
+  .breadcrumb-nav.sidebar-expanded {
+    left: 80px; /* Sidebar stays collapsed on tablet/mobile */
+  }
+}
+
+@media (max-width: 767px) {
+  .breadcrumb-nav {
+    top: 56px;
+  }
+}
+
+@media (max-width: 576px) {
+  .breadcrumb-nav {
+    top: 52px;
+  }
 }
 
 .breadcrumb {

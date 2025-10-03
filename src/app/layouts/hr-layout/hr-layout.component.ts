@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { HeaderBarComponent } from '../../core/toolkit/header-bar';
 import { SidebarComponent, type SidebarConfig } from '../../core/toolkit/sidebar';
+import { BreadcrumbComponent } from '../../core/toolkit/breadcrumb/breadcrumb.component';
+import { BreadcrumbService } from '../../core/services/breadcrumb.service';
 
 @Component({
   selector: 'app-hr-layout',
@@ -11,12 +13,15 @@ import { SidebarComponent, type SidebarConfig } from '../../core/toolkit/sidebar
     CommonModule,
     RouterOutlet,
     HeaderBarComponent,
-    SidebarComponent
+    SidebarComponent,
+    BreadcrumbComponent
   ],
   templateUrl: './hr-layout.component.html',
   styleUrl: './hr-layout.component.scss'
 })
 export class HrLayoutComponent {
+  private breadcrumbService = inject(BreadcrumbService);
+  breadcrumbs$ = this.breadcrumbService.breadcrumbs$;
   hrSidebarConfig: SidebarConfig = {
     headerTitle: 'HR Panel',
     headerIcon: 'fas fa-user-tie',

@@ -1,4 +1,6 @@
 export * from './user.model';
+export * from './role.model';
+export * from './department.model';
 export * from './interview.model';
 export * from './dashboard.model';
 export * from './auth.model';

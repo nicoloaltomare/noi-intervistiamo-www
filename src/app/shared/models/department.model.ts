@@ -1,11 +1,8 @@
 export interface Department {
   id: string;
   name: string;
-  description: string;
+  description?: string;
   color: string;
-  managerName?: string;
-  managerId?: string;
-  employeeCount?: number;
   isActive: boolean;
   createdAt: Date;
   updatedAt?: Date;
@@ -14,7 +11,7 @@ export interface Department {
 
 export interface DepartmentFilters {
   searchText?: string;
-  status?: boolean;
+  isActive?: boolean;
   showDeleted?: boolean;
 }
 

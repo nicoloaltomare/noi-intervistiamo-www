@@ -5,6 +5,9 @@
   <!-- Candidate Header -->
   <app-header-bar variant="admin" [sidebarExpanded]="sidebar.isExpanded()"></app-header-bar>
 
+  <!-- Breadcrumb fissa -->
+  <app-breadcrumb [items]="(breadcrumbs$ | async) || []" [sidebarExpanded]="sidebar.isExpanded()"></app-breadcrumb>
+
   <!-- Main Content Area -->
   <main class="candidate-content" [class.sidebar-expanded]="sidebar.isExpanded()">
     <div class="content-wrapper">

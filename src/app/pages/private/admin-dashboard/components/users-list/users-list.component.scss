@@ -1,84 +1,472 @@
 .users-list-page {
-  max-width: 800px;
-  margin: 0 auto;
+  padding: 0;
+}
+
+// Confirm Modal Styles
+.confirm-modal-content {
+  text-align: center;
+  padding: 20px 0;
+}
+
+.confirm-icon {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 123, 255, 0.1);
+
+  i {
+    font-size: 40px;
+    color: #007bff;
+  }
+
+  &.warning {
+    background: rgba(255, 193, 7, 0.1);
+
+    i {
+      color: #ffc107;
+    }
+  }
+}
+
+.confirm-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--portal-text-primary);
+  margin: 0 0 12px 0;
+}
+
+.confirm-message {
+  font-size: 16px;
+  color: var(--portal-text-secondary);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.confirm-footer {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+
+  .btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    i {
+      font-size: 13px;
+    }
+
+    &.btn-secondary {
+      background: var(--portal-bg-primary);
+      color: var(--portal-text-primary);
+      border: 1px solid var(--portal-border-primary);
+
+      &:hover {
+        background: var(--portal-bg-secondary);
+      }
+    }
+
+    &.btn-primary {
+      background: #007bff;
+      color: white;
+
+      &:hover {
+        background: #0056b3;
+      }
+    }
+
+    &.btn-warning {
+      background: #ffc107;
+      color: #212529;
+
+      &:hover {
+        background: #e0a800;
+      }
+    }
+
+    &.btn-danger {
+      background: #dc3545;
+      color: white;
+
+      &:hover {
+        background: #c82333;
+      }
+    }
+  }
 }
 
 .page-header {
-  text-align: center;
-  margin-bottom: 3rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
 }
 
 .page-title {
-  font-size: 2.25rem;
-  font-weight: 700;
-  color: var(--portal-text-primary);
-  margin-bottom: 0.5rem;
-}
-
-.page-title i {
-  color: var(--portal-primary);
-}
-
-.page-subtitle {
-  font-size: 1.125rem;
-  color: var(--portal-text-secondary);
-  margin: 0;
-}
-
-.coming-soon-card {
-  background: white;
-  border-radius: 12px;
-  padding: 3rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  text-align: center;
-}
-
-.coming-soon-icon {
-  font-size: 4rem;
-  color: var(--portal-warning);
-  margin-bottom: 1.5rem;
-}
-
-.coming-soon-card h2 {
   font-size: 1.75rem;
   font-weight: 600;
   color: var(--portal-text-primary);
-  margin-bottom: 1rem;
+  margin: 0;
+  display: flex;
+  align-items: center;
+
+  i {
+    color: var(--portal-primary);
+  }
 }
 
-.coming-soon-card p {
-  font-size: 1rem;
+.btn-add-user {
+  padding: 12px 24px;
+  background: var(--portal-primary);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+
+  i {
+    font-size: 13px;
+  }
+
+  &:hover {
+    background: #003d5c;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 77, 115, 0.3);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  /* Responsive: mostra solo icona su dispositivi piccoli */
+  @media (max-width: 991px) {
+    padding: 10px;
+    width: 44px;
+    height: 44px;
+    justify-content: center;
+    gap: 0;
+
+    // Mostra solo l'icona
+    i {
+      font-size: 18px;
+      margin: 0;
+    }
+
+    // Nascondi il testo
+    .btn-text {
+      display: none;
+    }
+  }
+}
+
+.users-table-container {
+  margin-top: 1.5rem;
+}
+
+.user-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0;
+  position: relative;
+}
+
+/* Status icon inside user-cell (visible only in card view on mobile) */
+.user-status-icon {
+  display: none; /* Hidden by default (table view) */
+}
+
+.user-avatar {
+  flex-shrink: 0;
+}
+
+.avatar-image {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--portal-border-primary);
+}
+
+.avatar-initials {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--portal-primary), var(--portal-primary-hover, #0a8228));
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+}
+
+.user-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.user-name {
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: var(--portal-text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.user-details {
+  font-size: 0.75rem;
   color: var(--portal-text-secondary);
-  margin-bottom: 1.5rem;
-  line-height: 1.6;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.coming-soon-card ul {
-  text-align: left;
-  max-width: 400px;
-  margin: 0 auto;
+.user-username {
+  color: var(--portal-text-muted);
+  font-weight: 500;
+}
+
+.user-email {
   color: var(--portal-text-secondary);
 }
 
-.coming-soon-card li {
-  padding: 0.5rem 0;
-  border-bottom: 1px solid var(--portal-border-secondary);
+.user-role {
+  font-weight: 600;
+  font-size: 0.75rem;
 }
 
-.coming-soon-card li:last-child {
-  border-bottom: none;
+.role-cell {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.875rem;
+  font-weight: 400;
+  flex-wrap: nowrap;
+
+  .color-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+}
+
+.access-areas-cell {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+
+.access-area-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: 600;
+  color: white;
+  white-space: nowrap;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+
+  i {
+    font-size: 11px;
+    flex-shrink: 0;
+  }
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+  }
+}
+
+/* Responsive styles for cards */
+@media (max-width: 991px) {
+  /* Show status icon in card view - positioned relative to card-field */
+  .user-status-icon {
+    display: flex;
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    width: 32px;
+    height: 32px;
+    background: var(--portal-bg-primary);
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    z-index: 10;
+
+    i {
+      font-size: 1.1rem;
+    }
+  }
+
+  /* Style role cell with background color in card view only */
+  .card-view .role-cell {
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: 500;
+    color: white;
+    background-color: var(--role-color);
+
+    span:not(.color-dot) {
+      color: white;
+    }
+
+    .color-dot {
+      display: none; /* Hide color dot in card view since we have background */
+    }
+  }
+
+  .user-cell {
+    gap: 0.875rem;
+    padding: 0;
+    background: transparent;
+    border-radius: 0;
+    position: static; /* Remove relative positioning from user-cell */
+  }
+
+  /* Hide email in mobile view */
+  .user-email {
+    display: none;
+  }
+
+  .user-details:has(.user-email) {
+    display: none; /* Hide the entire details div containing email */
+  }
+
+  .avatar-image,
+  .avatar-initials {
+    width: 42px;
+    height: 42px;
+  }
+
+  .avatar-initials {
+    font-size: 0.95rem;
+  }
+
+  .user-name {
+    font-size: 0.95rem;
+  }
+
+  .access-area-badge {
+    font-size: 11px;
+    padding: 5px 10px;
+
+    i {
+      font-size: 10px;
+    }
+  }
+}
+
+// Last login cell styles
+.last-login-cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4px 0;
+}
+
+.last-login-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  align-items: center;
+}
+
+.last-login-date {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--portal-text-primary);
+  line-height: 1.2;
+}
+
+.last-login-time {
+  font-size: 11px;
+  color: var(--portal-text-secondary);
+  line-height: 1.2;
+}
+
+.no-login {
+  color: var(--portal-text-secondary);
+  font-size: 14px;
+  opacity: 0.4;
+}
+
+// Status cell styles
+.status-cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  background: rgba(0, 0, 0, 0.05);
+
+  i {
+    font-size: 10px;
+  }
 }
 
 @media (max-width: 768px) {
   .page-title {
-    font-size: 1.875rem;
+    font-size: 1.5rem;
   }
 
-  .coming-soon-card {
-    padding: 2rem 1.5rem;
+  .avatar-image,
+  .avatar-initials {
+    width: 40px;
+    height: 40px;
   }
 
-  .coming-soon-icon {
-    font-size: 3rem;
+  .avatar-initials {
+    font-size: 0.9rem;
+  }
+
+  .user-name {
+    font-size: 0.9rem;
+  }
+
+  .user-details {
+    font-size: 0.8rem;
   }
 }

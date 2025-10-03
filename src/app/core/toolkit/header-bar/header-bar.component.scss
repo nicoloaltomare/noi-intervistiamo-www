@@ -229,14 +229,62 @@
 @media (max-width: 991px) {
   .admin-header-bar {
     height: 60px;
+    left: 80px; /* Keep space for collapsed sidebar on tablet/mobile */
+  }
+
+  .admin-header-bar.sidebar-expanded {
+    left: 80px; /* Sidebar stays collapsed on tablet/mobile */
+  }
+
+  /* Riduci margini laterali */
+  .col-auto.ms-5 {
+    margin-left: 1rem !important;
+  }
+
+  .col-auto.me-5 {
+    margin-right: 1rem !important;
   }
 
   .brand-title {
-    font-size: 1.1rem;
+    font-size: 1rem;
   }
 
   .brand-subtitle {
-    font-size: 0.8rem;
+    display: none; /* Nascondi sottotitolo su tablet */
+  }
+
+  .user-greeting {
+    display: none; /* Nascondi saluto su tablet */
+  }
+
+  .avatar-initials {
+    width: 36px;
+    height: 36px;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .admin-header-bar {
+    height: 56px;
+  }
+
+  /* Riduci ulteriormente i margini */
+  .col-auto.ms-5 {
+    margin-left: 0.5rem !important;
+  }
+
+  .col-auto.me-5 {
+    margin-right: 0.5rem !important;
+  }
+
+  .brand-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+
+  .brand-subtitle {
+    display: none;
   }
 
   .user-greeting {
@@ -246,21 +294,15 @@
   .avatar-initials {
     width: 32px;
     height: 32px;
-    font-size: 0.8rem;
-  }
-}
-
-@media (max-width: 767px) {
-  .admin-header-bar {
-    height: 56px;
+    font-size: 0.75rem;
   }
 
-  .brand-title {
-    font-size: 1rem;
+  .user-dropdown-toggle {
+    padding: 0.375rem;
   }
 
-  .brand-subtitle {
-    display: none;
+  .user-dropdown-toggle i {
+    font-size: 0.75rem;
   }
 
   .header-logo {
@@ -268,12 +310,64 @@
   }
 
   .dropdown-menu {
-    min-width: 180px;
+    min-width: 160px;
+    right: -8px !important;
   }
 
   .dropdown-item {
-    padding: 0.625rem 0.875rem;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.8rem;
+  }
+
+  .dropdown-item i {
+    font-size: 0.75rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .admin-header-bar {
+    height: 52px;
+  }
+
+  /* Margini minimi */
+  .col-auto.ms-5 {
+    margin-left: 0.375rem !important;
+  }
+
+  .col-auto.me-5 {
+    margin-right: 0.375rem !important;
+  }
+
+  .brand-title {
     font-size: 0.85rem;
+    font-weight: 700;
+  }
+
+  .avatar-initials {
+    width: 30px;
+    height: 30px;
+    font-size: 0.7rem;
+    border-width: 1px;
+  }
+
+  .user-dropdown-toggle {
+    padding: 0.25rem;
+    width: 20px;
+    height: 20px;
+  }
+
+  .user-dropdown-toggle i {
+    font-size: 0.65rem;
+  }
+
+  .dropdown-menu {
+    min-width: 140px;
+    right: -4px !important;
+  }
+
+  .dropdown-item {
+    padding: 0.5rem 0.625rem;
+    font-size: 0.75rem;
   }
 }
 

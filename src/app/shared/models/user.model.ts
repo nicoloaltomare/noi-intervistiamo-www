@@ -6,47 +6,27 @@ export interface User {
   lastName: string;
   role: string;
   roleName?: string;
+  roleColor?: string;
   department?: string;
-  status: UserStatus;
+  departmentColor?: string;
+  status: string;
   isActive: boolean;
   avatarId?: string;
   lastLogin?: Date;
   createdAt: Date;
   updatedAt?: Date;
   deletedAt?: Date;
+  hasHRAccess?: boolean;
+  hasTechnicalAccess?: boolean;
+  hasAdminAccess?: boolean;
+  hasCandidateAccess?: boolean;
+  accessAreaColors?: Record<string, string>;
 }
-
-export enum UserStatus {
-  ACTIVE = 'ACTIVE',
-  INACTIVE = 'INACTIVE',
-  PENDING = 'PENDING',
-  SUSPENDED = 'SUSPENDED'
-}
-
-export enum UserRole {
-  ADMIN = 'ADMIN',
-  HR = 'HR',
-  INTERVIEWER = 'INTERVIEWER',
-  CANDIDATE = 'CANDIDATE'
-}
-
-export const AVAILABLE_ROLES = Object.values(UserRole);
-
-export const AVAILABLE_DEPARTMENTS = [
-  'Sviluppo Software',
-  'Risorse Umane',
-  'Marketing',
-  'Vendite',
-  'Amministrazione',
-  'IT',
-  'Prodotto',
-  'Customer Success'
-];
 
 export interface UserFilters {
   searchText?: string;
   roleId?: string;
-  status?: UserStatus;
+  status?: string;
   department?: string;
   showDeleted?: boolean;
 }

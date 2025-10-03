@@ -228,6 +228,19 @@ export class LoginModalComponent {
 
 
   show(): void {
+    // Check if user is already authenticated
+    if (this.authService.isAuthenticated()) {
+      const currentUser = this.authService.currentUser();
+      if (currentUser && currentUser.role) {
+        // User is already logged in, navigate to their area
+        const userArea = this.authService.getUserArea(currentUser.role);
+        if (userArea) {
+          this.router.navigate([userArea.route]);
+          return;
+        }
+      }
+    }
+
     this.isVisible.set(true);
     this.resetToLoginView();
   }
@@ -298,12 +311,9 @@ export class LoginModalComponent {
       return;
     }
 
-    this.successMessage.set(`Accesso effettuato nell'area ${area.displayName}`);
-
-    setTimeout(() => {
-      this.authService.selectArea(user, area);
-      this.hide();
-    }, 1500);
+    // Navigate immediately without artificial delay
+    this.authService.selectArea(user, area);
+    this.hide();
   }
 
   showPasswordRecovery(): void {
@@ -347,12 +357,11 @@ export class LoginModalComponent {
     }
 
     if (areas.length === 1) {
-      this.successMessage.set(`Accesso effettuato nell'area ${areas[0].displayName}`);
-      setTimeout(() => {
-        this.authService.selectArea(user, areas[0]);
-        this.hide();
-      }, 1500);
+      // Single area: navigate immediately
+      this.authService.selectArea(user, areas[0]);
+      this.hide();
     } else {
+      // Multiple areas: show selection modal
       this.showAreaSelection(user, areas);
     }
   }

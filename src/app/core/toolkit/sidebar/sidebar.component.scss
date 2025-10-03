@@ -29,8 +29,9 @@
   justify-content: space-between;
   padding: 1.5rem 1rem;
   background: var(--portal-primary);
-  min-height: 81px;
+  height: 81px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  transition: height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .header-content {
@@ -128,6 +129,10 @@
     color: white;
 
     .menu-icon {
+      color: white;
+    }
+
+    .arrow {
       color: white;
     }
   }
@@ -318,6 +323,41 @@
 /* Overlay */
 .overlay {
   display: none;
+}
+
+@media (max-width: 991px) {
+  .sidebar-header {
+    height: 60px;
+    padding: 1rem;
+  }
+
+  /* Nascondi il toggle button su tablet e mobile */
+  .toggle-btn {
+    display: none;
+  }
+
+  /* Forza la sidebar a rimanere collassata */
+  .sidebar {
+    width: 80px !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .sidebar-header {
+    height: 56px;
+    padding: 0.75rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .sidebar-header {
+    height: 52px;
+    padding: 0.625rem 0.5rem;
+  }
+
+  .header-icon {
+    font-size: 1.25rem;
+  }
 }
 
 @media (max-width: 768px) {

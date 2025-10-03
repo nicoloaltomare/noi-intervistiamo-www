@@ -4,11 +4,25 @@ export interface User {
   email: string;
   firstName: string;
   lastName: string;
-  role: 'admin' | 'user' | 'interviewer';
-  avatar?: string;
-  status: 'active' | 'inactive' | 'pending';
-  createdAt: Date;
+  role: string;
+  roleName?: string;
+  roleColor?: string;
+  department?: string;
+  departmentColor?: string;
+  status: 'Attivo' | 'Inattivo' | 'In attesa' | 'Sospeso';
+  isActive: boolean;
+  avatarId?: string;
   lastLogin?: Date;
+  createdAt: Date;
+  updatedAt?: Date;
+  deletedAt?: Date;
+  // Access areas
+  hasHRAccess?: boolean;
+  hasTechnicalAccess?: boolean;
+  hasAdminAccess?: boolean;
+  hasCandidateAccess?: boolean;
+  // Area colors
+  accessAreaColors?: Record<string, string>;
 }
 
 export interface UserStats {
@@ -17,7 +31,8 @@ export interface UserStats {
   newUsersThisMonth: number;
   usersByRole: {
     admin: number;
-    user: number;
+    hr: number;
     interviewer: number;
+    candidate: number;
   };
 }

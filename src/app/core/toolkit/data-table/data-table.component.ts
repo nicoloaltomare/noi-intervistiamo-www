@@ -227,9 +227,50 @@ export class DataTableComponent {
           year: 'numeric',
           hour: '2-digit',
           minute: '2-digit'
-        });
+        }).replace(',', ' -');
       default:
         return String(value);
     }
+  }
+
+  getBadgeClass(value: any): string {
+    return 'badge';
+  }
+
+  getBadgeStyle(value: any): { [key: string]: string } {
+    // Se il valore è un oggetto con style, usa quello
+    if (typeof value === 'object' && value?.style) {
+      return value.style;
+    }
+
+    // Se il valore è una stringa, applica colori personalizzati in base al valore
+    const stringValue = String(value).toUpperCase();
+
+    switch (stringValue) {
+      case 'ACTIVE':
+      case 'ATTIVO':
+        return { 'background-color': '#10b981', 'color': 'white' };
+      case 'INACTIVE':
+      case 'INATTIVO':
+        return { 'background-color': '#ef4444', 'color': 'white' };
+      case 'PENDING':
+      case 'IN ATTESA':
+        return { 'background-color': '#f59e0b', 'color': 'white' };
+      case 'SUSPENDED':
+      case 'SOSPESO':
+        return { 'background-color': '#6b7280', 'color': 'white' };
+      default:
+        return { 'background-color': '#64748b', 'color': 'white' };
+    }
+  }
+
+  getBadgeText(value: any): string {
+    // Se il valore è un oggetto con text, usa quello
+    if (typeof value === 'object' && value?.text) {
+      return value.text;
+    }
+
+    // Altrimenti usa il valore come stringa
+    return String(value);
   }
 }

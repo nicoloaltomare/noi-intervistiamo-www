@@ -1,13 +1,14 @@
-import { Component, EventEmitter, Input, Output, TemplateRef } from '@angular/core';
+import { Component, EventEmitter, Input, Output, TemplateRef, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { CustomSelectComponent, SelectOption } from '../custom-select';
 
 export interface FiltroItem {
   id: string;
   label: string;
   type: 'text' | 'select' | 'checkbox' | 'multiselect';
   placeholder?: string;
-  options?: { value: any; label: string }[];
+  options?: SelectOption[];
   value?: any;
   colSize?: 'col-md-2' | 'col-md-3' | 'col-md-4' | 'col-md-6' | 'col-md-12';
 }
@@ -15,7 +16,7 @@ export interface FiltroItem {
 @Component({
   selector: 'app-search',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, CustomSelectComponent],
   templateUrl: './search.component.html',
   styleUrl: './search.component.scss'
 })
@@ -26,9 +27,22 @@ export class SearchComponent {
   @Input() showClearButton: boolean = true;
   @Input() clearButtonText: string = 'Pulisci';
   @Input() additionalContent?: TemplateRef<any>;
+  @Input() defaultCollapsed: boolean = true;
 
   @Output() filtroChange = new EventEmitter<{ filtroId: string; value: any }>();
   @Output() clearFiltri = new EventEmitter<void>();
+
+  isCollapsed = signal(true);
+  initialized = signal(false);
+
+  ngOnInit() {
+    this.isCollapsed.set(this.defaultCollapsed);
+    this.initialized.set(true);
+  }
+
+  toggleCollapse() {
+    this.isCollapsed.set(!this.isCollapsed());
+  }
 
   onFiltroChange(filtroId: string, value: any) {
     // Aggiorna il valore del filtro

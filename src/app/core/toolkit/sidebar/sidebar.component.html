@@ -28,7 +28,7 @@
           <!-- Voce con children -->
           <div *ngIf="item.children" class="menu-parent" #menuParent>
             <button class="menu-btn"
-                    [class.active]="!isExpanded() && hasActiveChild(item)"
+                    [class.active]="hasActiveChild(item) && (!isExpanded() || !isMenuExpanded(item.id))"
                     (click)="onParentClick(item, menuParent)">
               <i [class]="item.icon" class="menu-icon"></i>
               <span class="menu-label" *ngIf="isExpanded()">{{ item.label }}</span>
@@ -58,7 +58,7 @@
                 <li *ngFor="let child of item.children">
                   <button class="dropdown-btn"
                           [class.active]="isActiveRoute(child.route || '')"
-                          (click)="onMenuItemClick(child)">
+                          (click)="onMenuItemClick(child); $event.stopPropagation()">
                     <i [class]="child.icon" class="dropdown-icon"></i>
                     <span class="dropdown-label">{{ child.label }}</span>
                   </button>

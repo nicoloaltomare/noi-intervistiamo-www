@@ -1,3 +1,146 @@
 <div class="roles-list-page">
+  <div class="page-header">
+    <h2 class="page-title">
+      <i class="fas fa-shield-alt me-2"></i>
+      Elenco Ruoli
+    </h2>
+    <button class="btn-add-role" (click)="editRole(null)">
+      <i class="fas fa-plus"></i>
+      <span class="btn-text">Nuovo Ruolo</span>
+    </button>
+  </div>
 
+  <!-- Filtri di ricerca -->
+  <app-search
+    [title]="'Filtri di Ricerca'"
+    [icon]="'fas fa-filter'"
+    [filtri]="filtri"
+    [showClearButton]="true"
+    (filtroChange)="onFiltroChange($event)"
+    (clearFiltri)="onClearFiltri()">
+  </app-search>
+
+  <!-- Tabella ruoli -->
+  <div class="roles-table-container">
+    <app-data-table
+      [data]="roles()"
+      [columns]="columns"
+      [actions]="actions"
+      [pagination]="pagination()"
+      [loading]="loading()"
+      [showPagination]="true"
+      [emptyStateMessage]="'Nessun ruolo trovato'"
+      [emptyStateIcon]="'fas fa-shield-alt'"
+      (pageChange)="onPageChange($event)"
+      (sortChange)="onSortChange($event)"
+      (actionClick)="onActionClick($event)">
+
+      <!-- Template custom per colonna ruolo -->
+      <ng-template #roleColumnTemplate let-role>
+        <div class="role-cell">
+          <div class="role-name">
+            <span class="role-color-dot" [style.background-color]="role.color"></span>
+            <span class="role-title">{{ role.name }}</span>
+          </div>
+          <div class="role-description" *ngIf="role.description">{{ role.description }}</div>
+        </div>
+      </ng-template>
+
+      <!-- Template custom per aree di accesso -->
+      <ng-template #accessAreasTemplate let-role>
+        <div class="access-areas-cell">
+          <span
+            *ngFor="let area of getRoleAccessAreas(role)"
+            class="access-area-badge"
+            [style.background-color]="area.color">
+            <i [class]="area.icon"></i>
+            {{ area.label }}
+          </span>
+          <span *ngIf="getRoleAccessAreas(role).length === 0" class="no-access">
+            <i class="fas fa-ban"></i>
+          </span>
+        </div>
+      </ng-template>
+
+      <!-- Template custom per conteggio utenti -->
+      <ng-template #userCountTemplate let-role>
+        <div class="user-count-cell">
+          <span class="user-count-badge">
+            <i class="fas fa-users"></i>
+            {{ role.userCount || 0 }}
+          </span>
+        </div>
+      </ng-template>
+
+      <!-- Template custom per stato -->
+      <ng-template #statusTemplate let-role>
+        <div class="status-cell">
+          <span class="status-badge" [class.active]="role.isActive" [class.inactive]="!role.isActive">
+            <i class="fas fa-circle"></i>
+            {{ role.isActive ? 'Attivo' : 'Inattivo' }}
+          </span>
+        </div>
+      </ng-template>
+    </app-data-table>
+  </div>
+
+  <!-- Role Form Modal -->
+  <app-role-form-modal
+    [isVisible]="showRoleModal"
+    [role]="selectedRole()"
+    [preloadedAccessAreas]="roleFormData()?.accessAreas"
+    (closeModal)="closeRoleModal()"
+    (saveRole)="onSaveRole($event)">
+  </app-role-form-modal>
+
+  <!-- Confirm Modal -->
+  <app-base-modal
+    *ngIf="confirmModalConfig()"
+    [isVisible]="showConfirmModal"
+    [config]="{ size: 'sm', showFooter: true }"
+    (closeModal)="closeConfirmModal()">
+
+    <div class="confirm-modal-content">
+      <p class="confirm-message">{{ confirmModalConfig()?.message }}</p>
+    </div>
+
+    <div slot="footer" class="confirm-footer">
+      <button type="button" class="btn btn-secondary" (click)="closeConfirmModal()">
+        <i class="fas fa-times"></i>
+        Annulla
+      </button>
+      <button
+        type="button"
+        class="btn"
+        [class.btn-primary]="confirmModalConfig()?.confirmVariant === 'primary'"
+        [class.btn-warning]="confirmModalConfig()?.confirmVariant === 'warning'"
+        [class.btn-danger]="confirmModalConfig()?.confirmVariant === 'danger'"
+        (click)="onConfirmAction()">
+        <i class="fas fa-check"></i>
+        {{ confirmModalConfig()?.confirmText }}
+      </button>
+    </div>
+  </app-base-modal>
+
+  <!-- Info Modal -->
+  <app-base-modal
+    *ngIf="showInfoModal()"
+    [isVisible]="showInfoModal"
+    [config]="{ size: 'sm', showFooter: true }"
+    (closeModal)="closeInfoModal()">
+
+    <div class="info-modal-content">
+      <div class="info-icon error">
+        <i class="fas fa-exclamation-circle"></i>
+      </div>
+      <p class="info-message">{{ infoModalMessage() }}</p>
+    </div>
+
+    <div slot="footer" class="info-footer">
+      <button type="button" class="btn btn-primary" (click)="closeInfoModal()">
+        <i class="fas fa-check"></i>
+        OK
+      </button>
+    </div>
+  </app-base-modal>
 </div>

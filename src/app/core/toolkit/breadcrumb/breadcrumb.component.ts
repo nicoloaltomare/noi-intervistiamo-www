@@ -23,6 +23,7 @@ export class BreadcrumbComponent {
   @Input() homeRoute: string = '/';
   @Input() homeIcon: string = 'fas fa-home';
   @Input() homeLabel: string = 'Home';
+  @Input() sidebarExpanded: boolean = false;
 
   constructor(private router: Router) {}
 

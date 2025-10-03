@@ -5,7 +5,7 @@
 }
 
 .admin-content {
-  padding-top: 80px; /* Height of admin header */
+  padding-top: 81px; /* Height of admin header */
   margin-left: 70px; /* Collapsed sidebar width */
   min-height: 100vh;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -17,39 +17,44 @@
 }
 
 .content-wrapper {
-  padding: 2rem;
+  padding: 5rem 2rem 2rem 2rem;
   max-width: 100%;
   margin: 0 auto;
 }
 
 /* Responsive adjustments */
-@media (max-width: 768px) {
+@media (max-width: 991px) {
   .admin-content {
-    padding-top: 70px;
-    margin-left: 0; /* No sidebar margin on mobile */
+    padding-top: 60px;
+    margin-left: 80px; /* Keep space for collapsed sidebar on tablet/mobile */
   }
 
   .admin-content.sidebar-expanded {
-    margin-left: 0; /* Sidebar overlays on mobile */
+    margin-left: 80px; /* Sidebar stays collapsed on tablet/mobile */
   }
+}
 
-  .content-wrapper {
-    padding: 1.5rem;
+@media (max-width: 767px) {
+  .admin-content {
+    padding-top: 56px;
   }
 }
 
 @media (max-width: 576px) {
   .admin-content {
-    padding-top: 60px;
-    margin-left: 0; /* No sidebar margin on small mobile */
+    padding-top: 52px;
   }
+}
 
-  .admin-content.sidebar-expanded {
-    margin-left: 0; /* Sidebar overlays on small mobile */
-  }
-
+@media (max-width: 768px) {
   .content-wrapper {
-    padding: 1rem;
+    padding: 4rem 1.5rem 1.5rem 1.5rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .content-wrapper {
+    padding: 4rem 1rem 1rem 1rem;
   }
 }
 

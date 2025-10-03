@@ -1,3 +1,133 @@
 <div class="departments-list-page">
+  <div class="page-header">
+    <h2 class="page-title">
+      <i class="fas fa-building me-2"></i>
+      Elenco Dipartimenti
+    </h2>
+    <button class="btn-add-department" (click)="editDepartment(null)">
+      <i class="fas fa-plus"></i>
+      <span class="btn-text">Nuovo Dipartimento</span>
+    </button>
+  </div>
 
+  <!-- Filtri di ricerca -->
+  <app-search
+    [title]="'Filtri di Ricerca'"
+    [icon]="'fas fa-filter'"
+    [filtri]="filtri"
+    [showClearButton]="true"
+    (filtroChange)="onFiltroChange($event)"
+    (clearFiltri)="onClearFiltri()">
+  </app-search>
+
+  <!-- Tabella dipartimenti -->
+  <div class="departments-table-container">
+    <app-data-table
+      [data]="departments()"
+      [columns]="columns"
+      [actions]="actions"
+      [pagination]="pagination()"
+      [loading]="loading()"
+      [showPagination]="true"
+      [emptyStateMessage]="'Nessun dipartimento trovato'"
+      [emptyStateIcon]="'fas fa-building'"
+      (pageChange)="onPageChange($event)"
+      (sortChange)="onSortChange($event)"
+      (actionClick)="onActionClick($event)">
+
+      <!-- Template custom per colonna dipartimento -->
+      <ng-template #departmentColumnTemplate let-department>
+        <div class="department-cell">
+          <div class="department-badge" [style.background-color]="department.color">
+            {{ getDepartmentInitials(department) }}
+          </div>
+          <div class="department-info">
+            <div class="department-name">{{ department.name }}</div>
+            <div class="department-description" *ngIf="department.description">{{ department.description }}</div>
+          </div>
+          <!-- Status icon (visible only in card view) -->
+          <div class="department-status-icon">
+            <i [class]="department.isActive ? 'fas fa-check-circle' : 'fas fa-times-circle'" [style.color]="department.isActive ? '#059669' : '#ef4444'"></i>
+          </div>
+        </div>
+      </ng-template>
+
+      <!-- Template custom per conteggio utenti -->
+      <ng-template #userCountTemplate let-department>
+        <div class="user-count-cell">
+          <div class="user-count-content">
+            <i class="fas fa-users"></i>
+            <span class="user-count">{{ department.userCount || 0 }}</span>
+          </div>
+        </div>
+      </ng-template>
+
+      <!-- Template custom per stato -->
+      <ng-template #statusTemplate let-department>
+        <div class="status-cell">
+          <span class="status-badge" [style.color]="department.isActive ? '#059669' : '#ef4444'">
+            <i [class]="department.isActive ? 'fas fa-check-circle' : 'fas fa-times-circle'"></i>
+            {{ department.isActive ? 'Attivo' : 'Inattivo' }}
+          </span>
+        </div>
+      </ng-template>
+    </app-data-table>
+  </div>
+
+  <!-- Department Form Modal -->
+  <app-department-form-modal
+    [isVisible]="showDepartmentModal"
+    [department]="selectedDepartment()"
+    (closeModal)="closeDepartmentModal()"
+    (saveDepartment)="onSaveDepartment($event)">
+  </app-department-form-modal>
+
+  <!-- Confirm Modal -->
+  <app-base-modal
+    *ngIf="confirmModalConfig()"
+    [isVisible]="showConfirmModal"
+    [config]="{ size: 'sm', showFooter: true }"
+    (closeModal)="closeConfirmModal()">
+
+    <div class="confirm-modal-content">
+      <p class="confirm-message">{{ confirmModalConfig()?.message }}</p>
+    </div>
+
+    <div slot="footer" class="confirm-footer">
+      <button type="button" class="btn btn-secondary" (click)="closeConfirmModal()">
+        <i class="fas fa-times"></i>
+        Annulla
+      </button>
+      <button
+        type="button"
+        class="btn"
+        [class.btn-primary]="confirmModalConfig()?.confirmVariant === 'primary'"
+        [class.btn-warning]="confirmModalConfig()?.confirmVariant === 'warning'"
+        [class.btn-danger]="confirmModalConfig()?.confirmVariant === 'danger'"
+        (click)="onConfirmAction()">
+        <i class="fas fa-check"></i>
+        {{ confirmModalConfig()?.confirmText }}
+      </button>
+    </div>
+  </app-base-modal>
+
+  <!-- Info Modal -->
+  <app-base-modal
+    [isVisible]="showInfoModal"
+    [config]="{ size: 'sm', showFooter: true }"
+    (closeModal)="closeInfoModal()">
+    <div class="info-modal-content">
+      <div class="info-icon">
+        <i class="fas fa-info-circle"></i>
+      </div>
+      <p class="info-message">{{ infoModalMessage() }}</p>
+    </div>
+
+    <div slot="footer" class="modal-footer-content">
+      <button type="button" class="btn btn-primary" (click)="closeInfoModal()">
+        <i class="fas fa-check"></i>
+        OK
+      </button>
+    </div>
+  </app-base-modal>
 </div>

@@ -1,3 +1,164 @@
 <div class="users-list-page">
+  <div class="page-header">
+    <h2 class="page-title">
+      <i class="fas fa-users me-2"></i>
+      Elenco Utenti
+    </h2>
+    <button class="btn-add-user" (click)="openUserModal()">
+      <i class="fas fa-user-plus"></i>
+      <span class="btn-text">Nuovo Utente</span>
+    </button>
+  </div>
 
+  <!-- Filtri di ricerca -->
+  <app-search
+    [title]="'Filtri di Ricerca'"
+    [icon]="'fas fa-filter'"
+    [filtri]="filtri"
+    [showClearButton]="true"
+    (filtroChange)="onFiltroChange($event)"
+    (clearFiltri)="onClearFiltri()">
+  </app-search>
+
+  <!-- Tabella utenti -->
+  <div class="users-table-container">
+    <app-data-table
+      [data]="users()"
+      [columns]="columns"
+      [actions]="actions"
+      [pagination]="pagination()"
+      [loading]="loading()"
+      [showPagination]="true"
+      [emptyStateMessage]="'Nessun utente trovato'"
+      [emptyStateIcon]="'fas fa-user-slash'"
+      (pageChange)="onPageChange($event)"
+      (sortChange)="onSortChange($event)"
+      (actionClick)="onActionClick($event)">
+
+      <!-- Template custom per colonna utente -->
+      <ng-template #userColumnTemplate let-user>
+        <div class="user-cell">
+          <div class="user-avatar">
+            <img *ngIf="user.avatarId" [src]="user.avatarId" [alt]="user.firstName + ' ' + user.lastName" class="avatar-image">
+            <div *ngIf="!user.avatarId" class="avatar-initials">{{ getUserInitials(user) }}</div>
+          </div>
+          <div class="user-info">
+            <div class="user-name">{{ user.firstName }} {{ user.lastName }}</div>
+            <div class="user-details">
+              <span class="user-username">{{ '@' + user.username }}</span>
+            </div>
+            <div class="user-details">
+              <span class="user-email">{{ user.email }}</span>
+            </div>
+            <div class="user-details" *ngIf="user.roleName">
+              <span class="user-role" [style.color]="getRoleColor(user)">{{ user.roleName }}</span>
+            </div>
+          </div>
+          <!-- Status icon (visible only in card view) -->
+          <div class="user-status-icon">
+            <i [class]="getStatusIcon(user)" [style.color]="getStatusColor(user)"></i>
+          </div>
+        </div>
+      </ng-template>
+
+      <!-- Template custom per ultimo accesso -->
+      <ng-template #lastLoginTemplate let-user>
+        <div class="last-login-cell">
+          <div *ngIf="user.lastLogin" class="last-login-content">
+            <div class="last-login-date">{{ user.lastLogin | date:'dd/MM/yyyy' }}</div>
+            <div class="last-login-time">{{ user.lastLogin | date:'HH:mm' }}</div>
+          </div>
+          <div *ngIf="!user.lastLogin" class="no-login">
+            <i class="fas fa-minus"></i>
+          </div>
+        </div>
+      </ng-template>
+
+      <!-- Template custom per colonna stato -->
+      <ng-template #statusColumnTemplate let-user>
+        <div class="status-cell">
+          <span class="status-badge" [style.color]="getStatusColor(user)">
+            <i [class]="getStatusIcon(user)"></i>
+            {{ user.status }}
+          </span>
+        </div>
+      </ng-template>
+
+      <!-- Template custom per aree di accesso -->
+      <ng-template #accessAreasTemplate let-user>
+        <div class="access-areas-cell">
+          <span
+            *ngFor="let area of getUserAccessAreas(user)"
+            class="access-area-badge"
+            [style.background-color]="area.color">
+            <i [class]="area.icon"></i>
+            {{ area.label }}
+          </span>
+        </div>
+      </ng-template>
+    </app-data-table>
+  </div>
 </div>
+
+<!-- User Form Modal -->
+<app-user-form-modal
+  *ngIf="showUserModal()"
+  [isVisible]="showUserModal"
+  [user]="selectedUser()"
+  [preloadedRoles]="resolverData()?.roles"
+  [preloadedDepartments]="resolverData()?.departments"
+  [preloadedUserStatuses]="resolverData()?.userStatuses"
+  [preloadedAccessAreas]="userFormData()?.accessAreas"
+  [preloadedColorPalettes]="userFormData()?.colorPalettes"
+  (closeModal)="closeUserModal()"
+  (saveUser)="onSaveUser($event)">
+</app-user-form-modal>
+
+<!-- Confirm Modal -->
+<app-base-modal
+  *ngIf="confirmModalConfig()"
+  [isVisible]="showConfirmModal"
+  [config]="{ size: 'sm', showFooter: true }"
+  (closeModal)="closeConfirmModal()">
+
+  <div class="confirm-modal-content">
+    <p class="confirm-message">{{ confirmModalConfig()?.message }}</p>
+  </div>
+
+  <div slot="footer" class="confirm-footer">
+    <button type="button" class="btn btn-secondary" (click)="closeConfirmModal()">
+      <i class="fas fa-times"></i>
+      Annulla
+    </button>
+    <button
+      type="button"
+      class="btn"
+      [class.btn-primary]="confirmModalConfig()?.confirmVariant === 'primary'"
+      [class.btn-warning]="confirmModalConfig()?.confirmVariant === 'warning'"
+      [class.btn-danger]="confirmModalConfig()?.confirmVariant === 'danger'"
+      (click)="onConfirmAction()">
+      <i class="fas fa-check"></i>
+      {{ confirmModalConfig()?.confirmText }}
+    </button>
+  </div>
+</app-base-modal>
+
+<!-- Info Modal -->
+<app-base-modal
+  [isVisible]="showInfoModal"
+  [config]="{ size: 'sm', showFooter: true }"
+  (closeModal)="closeInfoModal()">
+  <div class="info-modal-content">
+    <div class="info-icon">
+      <i class="fas fa-info-circle"></i>
+    </div>
+    <p class="info-message">{{ infoModalMessage() }}</p>
+  </div>
+
+  <div slot="footer" class="modal-footer-content">
+    <button type="button" class="btn btn-primary" (click)="closeInfoModal()">
+      <i class="fas fa-check"></i>
+      OK
+    </button>
+  </div>
+</app-base-modal>

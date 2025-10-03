@@ -81,7 +81,7 @@ export class ApiService {
   }
 
   get<T>(endpoint: string, options?: RequestOptions): Observable<T> {
-    const url = `${this.baseUrl}${endpoint}`;
+    const url = `${this.baseUrl}/${endpoint}`;
     const headers = this.getHeaders(options);
     const params = this.getParams(options);
 
@@ -90,11 +90,38 @@ export class ApiService {
   }
 
   post<T>(endpoint: string, body: any, options?: RequestOptions): Observable<T> {
-    const url = `${this.baseUrl}${endpoint}`;
+    const url = `${this.baseUrl}/${endpoint}`;
     const headers = this.getHeaders(options);
     const params = this.getParams(options);
 
     const request = this.http.post<T>(url, body, { headers, params });
+    return this.handleRequest(request, options?.skipLoading);
+  }
+
+  put<T>(endpoint: string, body: any, options?: RequestOptions): Observable<T> {
+    const url = `${this.baseUrl}/${endpoint}`;
+    const headers = this.getHeaders(options);
+    const params = this.getParams(options);
+
+    const request = this.http.put<T>(url, body, { headers, params });
+    return this.handleRequest(request, options?.skipLoading);
+  }
+
+  patch<T>(endpoint: string, body: any = {}, options?: RequestOptions): Observable<T> {
+    const url = `${this.baseUrl}/${endpoint}`;
+    const headers = this.getHeaders(options);
+    const params = this.getParams(options);
+
+    const request = this.http.patch<T>(url, body, { headers, params });
+    return this.handleRequest(request, options?.skipLoading);
+  }
+
+  delete<T>(endpoint: string, options?: RequestOptions): Observable<T> {
+    const url = `${this.baseUrl}/${endpoint}`;
+    const headers = this.getHeaders(options);
+    const params = this.getParams(options);
+
+    const request = this.http.delete<T>(url, { headers, params });
     return this.handleRequest(request, options?.skipLoading);
   }
 

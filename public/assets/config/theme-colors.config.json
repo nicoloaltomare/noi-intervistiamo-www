@@ -2,7 +2,7 @@
   "application": {
     "name": "Noi Intervistiamo Portal",
     "version": "1.0.0",
-    "currentTheme": "corporate-blue"
+    "currentTheme": "modern-green"
   },
   "themes": {
     "corporate-blue": {

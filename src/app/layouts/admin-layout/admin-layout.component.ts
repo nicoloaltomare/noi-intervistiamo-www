@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { HeaderBarComponent } from '../../core/toolkit/header-bar';
 import { SidebarComponent, type SidebarConfig } from '../../core/toolkit/sidebar';
+import { BreadcrumbComponent } from '../../core/toolkit/breadcrumb/breadcrumb.component';
+import { BreadcrumbService } from '../../core/services/breadcrumb.service';
 
 @Component({
   selector: 'app-admin-layout',
@@ -11,12 +13,16 @@ import { SidebarComponent, type SidebarConfig } from '../../core/toolkit/sidebar
     CommonModule,
     RouterOutlet,
     HeaderBarComponent,
-    SidebarComponent
+    SidebarComponent,
+    BreadcrumbComponent
   ],
   templateUrl: './admin-layout.component.html',
   styleUrl: './admin-layout.component.scss'
 })
 export class AdminLayoutComponent {
+  private breadcrumbService = inject(BreadcrumbService);
+  breadcrumbs$ = this.breadcrumbService.breadcrumbs$;
+
   adminSidebarConfig: SidebarConfig = {
     headerTitle: 'Admin Panel',
     headerIcon: 'fas fa-shield-alt',

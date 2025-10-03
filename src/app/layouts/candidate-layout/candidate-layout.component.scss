@@ -9,7 +9,7 @@
   margin-top: 81px;
   min-height: calc(100vh - 81px);
   transition: margin-left 0.3s ease;
-  padding: 2rem;
+  padding: 0.5rem 2rem 2rem 2rem;
 
   &.sidebar-expanded {
     margin-left: 280px;
@@ -19,12 +19,13 @@
 .content-wrapper {
   max-width: 1400px;
   margin: 0 auto;
+  padding-top: 4.5rem;
 }
 
 @media (max-width: 768px) {
   .candidate-content {
     margin-left: 0;
-    padding: 1rem;
+    padding: 0.5rem 1rem 1rem 1rem;
   }
 
   .candidate-content.sidebar-expanded {

@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './core/guards/auth.guard';
 import { roleGuard } from './core/guards/role.guard';
+import { usersListResolver } from './pages/private/admin-dashboard/components/users-list/resolvers/users-list.resolver';
 
 export const routes: Routes = [
   {
@@ -28,7 +29,8 @@ export const routes: Routes = [
           },
           {
             path: 'users',
-            loadComponent: () => import('./pages/private/admin-dashboard/components/users-list/users-list.component').then(m => m.UsersListComponent)
+            loadComponent: () => import('./pages/private/admin-dashboard/components/users-list/users-list.component').then(m => m.UsersListComponent),
+            resolve: { data: usersListResolver }
           },
           {
             path: 'roles',

@@ -34,6 +34,7 @@ export class SidebarComponent implements OnInit {
   isExpanded = signal(true);
   expandedMenus = signal<Set<string>>(new Set());
   dropdownTop = 0;
+  isMobile = signal(false);
 
   ngOnInit() {
     if (!this.config) {
@@ -41,6 +42,7 @@ export class SidebarComponent implements OnInit {
       return;
     }
     this.setupRouterSubscription();
+    this.checkScreenSize();
   }
 
   private setupRouterSubscription() {
@@ -53,17 +55,56 @@ export class SidebarComponent implements OnInit {
     this.updateActiveMenus(this.router.url);
   }
 
-  private updateActiveMenus(_url: string) {
-    // Non aggiornare automaticamente i menu espansi in base alla route
-    // L'utente deve gestire manualmente l'apertura/chiusura
+  private updateActiveMenus(url: string) {
+    // Espandi automaticamente i menu che contengono la route attiva
+    const expanded = new Set<string>();
+
+    this.config.menuItems.forEach(item => {
+      if (item.children) {
+        // Controlla se uno dei figli è attivo
+        const hasActiveChild = item.children.some(child =>
+          child.route && (url === child.route || url.startsWith(child.route + '/'))
+        );
+
+        if (hasActiveChild) {
+          expanded.add(item.id);
+        }
+      }
+    });
+
+    this.expandedMenus.set(expanded);
   }
 
   toggleSidebar() {
+    // Previeni l'espansione su dispositivi piccoli
+    if (this.isMobile()) {
+      return;
+    }
+
     this.isExpanded.set(!this.isExpanded());
     // Chiudi tutti i menu quando si collassa la sidebar
     if (!this.isExpanded()) {
       this.expandedMenus.set(new Set());
+    } else {
+      // Quando si riapre la sidebar, riapri i menu con route attive
+      this.updateActiveMenus(this.router.url);
     }
+  }
+
+  private checkScreenSize() {
+    const width = window.innerWidth;
+    this.isMobile.set(width <= 991);
+
+    // Se siamo su mobile, mantieni la sidebar collassata
+    if (this.isMobile()) {
+      this.isExpanded.set(false);
+      this.expandedMenus.set(new Set());
+    }
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    this.checkScreenSize();
   }
 
   toggleMenu(menuId: string) {
