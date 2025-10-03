@@ -1,0 +1,168 @@
+<app-base-modal
+  [isVisible]="isVisible"
+  [config]="modalConfig"
+  (closeModal)="onClose()">
+
+  <div class="role-form-container">
+    <div class="form-grid">
+      <!-- Role Form Section -->
+      <div class="role-form-section">
+        <!-- Row 1: Nome, Stato e Colore -->
+        <div class="form-row">
+          <div class="form-group name-status-group">
+            <div class="form-group form-group-name">
+              <label for="name">
+                <i class="fas fa-tag"></i>
+                Nome Ruolo *
+                <span class="max-length-hint">max 50 caratteri</span>
+              </label>
+              <div class="input-with-icon">
+                <input
+                  type="text"
+                  id="name"
+                  [value]="formData().name"
+                  (input)="updateFormField('name', $any($event.target).value)"
+                  placeholder="es. HR Manager"
+                  class="form-input"
+                  [class.error]="hasError('name')"
+                  [class.valid]="isFieldValid('name')"
+                  required>
+                <i *ngIf="isFieldValid('name')" class="fas fa-check-circle validation-icon"></i>
+              </div>
+              <span *ngIf="hasError('name')" class="error-message">{{ getError('name') }}</span>
+            </div>
+
+            <div class="form-group">
+              <label>
+                <i class="fas fa-power-off"></i>
+                Stato
+              </label>
+              <app-custom-select
+                [options]="statusOptions"
+                [(ngModel)]="statusValue"
+                (selectionChange)="onStatusChange($event)"
+                placeholder="Seleziona stato">
+              </app-custom-select>
+            </div>
+          </div>
+
+          <div class="form-group color-group">
+            <label for="color">
+              <i class="fas fa-palette"></i>
+              Colore *
+            </label>
+            <div class="predefined-colors-inline">
+              <button
+                *ngFor="let color of predefinedColors()"
+                type="button"
+                class="color-dot-inline"
+                [class.active]="roleColor() === color"
+                [style.background-color]="color"
+                (click)="roleColor.set(color)"
+                [title]="color">
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Row 2: Descrizione -->
+        <div class="form-row">
+          <div class="form-group full-width">
+            <label for="description">
+              <i class="fas fa-align-left"></i>
+              Descrizione
+              <span class="max-length-hint">max 200 caratteri</span>
+            </label>
+            <textarea
+              id="description"
+              [value]="formData().description"
+              (input)="updateFormField('description', $any($event.target).value)"
+              placeholder="Descrizione del ruolo..."
+              class="form-textarea"
+              rows="3"></textarea>
+          </div>
+        </div>
+
+        <!-- Row 3: Aree di Accesso -->
+        <div class="form-row">
+          <div class="form-group full-width">
+            <label>
+              <i class="fas fa-key"></i>
+              Aree di Accesso *
+            </label>
+            <div class="access-areas-compact" [class.error]="hasError('accessAreas')">
+              <div
+                *ngFor="let area of accessAreas()"
+                class="access-area-compact"
+                [class.selected]="isAccessAreaSelected(area.id)"
+                [style.border-color]="isAccessAreaSelected(area.id) ? area.color : 'var(--portal-border-primary)'"
+                [style.box-shadow]="isAccessAreaSelected(area.id) ? '0 0 0 2px ' + area.color + '20' : 'none'"
+                (click)="toggleAccessArea(area.id)">
+                <div class="area-icon-compact" [style.background-color]="area.color">
+                  <i [class]="area.icon"></i>
+                </div>
+                <span class="area-label-compact">{{ area.label }}</span>
+              </div>
+            </div>
+            <span *ngIf="hasError('accessAreas')" class="error-message">{{ getError('accessAreas') }}</span>
+          </div>
+        </div>
+
+        <!-- Row 4: Aree Selezionate -->
+        <div class="form-row" *ngIf="getSelectedAccessAreasDetails().length > 0 || getSelectedAccessAreasDetails().length === 0">
+          <div class="selected-areas-section">
+            <label class="selected-areas-title">
+              <i class="fas fa-check-circle"></i>
+              Aree Selezionate
+            </label>
+            <div class="selected-areas-labels" *ngIf="getSelectedAccessAreasDetails().length > 0">
+              <span
+                *ngFor="let area of getSelectedAccessAreasDetails()"
+                class="selected-area-label"
+                [style.background-color]="area.color">
+                <i [class]="area.icon"></i>
+                {{ area.label }}
+              </span>
+            </div>
+            <div class="no-areas-selected" *ngIf="getSelectedAccessAreasDetails().length === 0">
+              <span>Nessuna area selezionata</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div slot="footer" class="modal-footer-content">
+    <button type="button" class="btn btn-secondary" (click)="onClose()">
+      <i class="fas fa-times"></i>
+      Annulla
+    </button>
+    <button type="button" class="btn btn-primary" (click)="onSave()">
+      <i class="fas fa-save"></i>
+      {{ role ? 'Aggiorna' : 'Crea' }} Ruolo
+    </button>
+  </div>
+
+</app-base-modal>
+
+<!-- Info Modal -->
+<app-base-modal
+  [isVisible]="showInfoModal"
+  [config]="{ size: 'sm', showFooter: true }"
+  (closeModal)="closeInfoModal()">
+  <div class="info-modal-content">
+    <div class="info-icon">
+      <i class="fas fa-info-circle"></i>
+    </div>
+    <p class="info-message">{{ infoModalMessage() }}</p>
+  </div>
+
+  <div slot="footer" class="modal-footer-content">
+    <button type="button" class="btn btn-primary" (click)="closeInfoModal()">
+      <i class="fas fa-check"></i>
+      OK
+    </button>
+  </div>
+</app-base-modal>

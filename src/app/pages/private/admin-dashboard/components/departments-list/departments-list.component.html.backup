@@ -1,0 +1,94 @@
+<div class="roles-list-page">
+  <div class="page-header">
+    <h2 class="page-title">
+      <i class="fas fa-shield-alt me-2"></i>
+      Elenco Ruoli
+    </h2>
+    <button class="btn-add-role" (click)="editRole(null)">
+      <i class="fas fa-plus"></i>
+      Nuovo Ruolo
+    </button>
+  </div>
+
+  <!-- Filtri di ricerca -->
+  <app-search
+    [title]="'Filtri di Ricerca'"
+    [icon]="'fas fa-filter'"
+    [filtri]="filtri"
+    [showClearButton]="true"
+    (filtroChange)="onFiltroChange($event)"
+    (clearFiltri)="onClearFiltri()">
+  </app-search>
+
+  <!-- Tabella ruoli -->
+  <div class="roles-table-container">
+    <app-data-table
+      [data]="roles()"
+      [columns]="columns"
+      [actions]="actions"
+      [pagination]="pagination()"
+      [loading]="loading()"
+      [showPagination]="true"
+      [emptyStateMessage]="'Nessun ruolo trovato'"
+      [emptyStateIcon]="'fas fa-shield-alt'"
+      (pageChange)="onPageChange($event)"
+      (sortChange)="onSortChange($event)"
+      (actionClick)="onActionClick($event)">
+
+      <!-- Template custom per colonna ruolo -->
+      <ng-template #roleColumnTemplate let-role>
+        <div class="role-cell">
+          <div class="role-badge-container">
+            <span class="role-badge" [style.background-color]="role.color">
+              {{ role.name }}
+            </span>
+            <span *ngIf="role.isSystem" class="system-badge">
+              <i class="fas fa-lock"></i> Sistema
+            </span>
+          </div>
+          <div class="role-description" *ngIf="role.description">{{ role.description }}</div>
+        </div>
+      </ng-template>
+
+      <!-- Template custom per aree di accesso -->
+      <ng-template #accessAreasTemplate let-role>
+        <div class="access-areas-cell">
+          <span *ngIf="role.hasHRAccess" class="access-badge access-hr">
+            <i class="fas fa-users"></i> HR
+          </span>
+          <span *ngIf="role.hasTechnicalAccess" class="access-badge access-technical">
+            <i class="fas fa-laptop-code"></i> Tecnico
+          </span>
+          <span *ngIf="role.hasAdminAccess" class="access-badge access-admin">
+            <i class="fas fa-user-shield"></i> Admin
+          </span>
+          <span *ngIf="role.hasCandidateAccess" class="access-badge access-candidate">
+            <i class="fas fa-user"></i> Candidato
+          </span>
+          <span *ngIf="!role.hasHRAccess && !role.hasTechnicalAccess && !role.hasAdminAccess && !role.hasCandidateAccess" class="no-access">
+            Nessun accesso
+          </span>
+        </div>
+      </ng-template>
+
+      <!-- Template custom per stato -->
+      <ng-template #statusTemplate let-role>
+        <div class="status-cell">
+          <span class="status-badge" [ngClass]="role.isActive ? 'status-active' : 'status-inactive'">
+            <i class="fas" [ngClass]="role.isActive ? 'fa-check-circle' : 'fa-times-circle'"></i>
+            {{ role.isActive ? 'Attivo' : 'Inattivo' }}
+          </span>
+        </div>
+      </ng-template>
+    </app-data-table>
+  </div>
+
+  <!-- Role Form Modal -->
+  <app-role-form-modal
+    [isVisible]="showRoleModal"
+    [role]="selectedRole()"
+    [preloadedAccessAreas]="roleFormData()?.accessAreas"
+    (closeModal)="closeRoleModal()"
+    (saveRole)="onSaveRole($event)">
+  </app-role-form-modal>
+</div>

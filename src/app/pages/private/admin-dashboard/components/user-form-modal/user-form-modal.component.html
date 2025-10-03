@@ -1,0 +1,339 @@
+<app-base-modal
+  [isVisible]="isVisible"
+  [config]="modalConfig"
+  (closeModal)="onClose()">
+
+  <div class="user-form-container">
+    <div class="form-grid">
+      <!-- Avatar & User Identity Section -->
+      <div class="avatar-section">
+        <div class="avatar-content">
+          <!-- Left side: Avatar + Status -->
+          <div class="avatar-left">
+            <div class="avatar-circle" [style.background-color]="userColor()" (click)="openAvatarModal()">
+              <img
+                *ngIf="selectedAvatar()"
+                [src]="selectedAvatar()"
+                alt="Avatar selezionato"
+                class="avatar-image">
+              <span *ngIf="!selectedAvatar()" class="avatar-initials">{{ getInitials() }}</span>
+            </div>
+            <p class="avatar-hint">{{ selectedAvatar() ? 'Clicca per cambiare' : 'Clicca per selezionare' }}</p>
+
+            <div class="status-section">
+              <app-custom-select
+                [options]="statusOptions()"
+                [placeholder]="'Seleziona uno stato'"
+                [(ngModel)]="formData().status"
+                (ngModelChange)="updateFormField('status', $event)"
+                name="status"
+                [class.error]="hasError('status')">
+              </app-custom-select>
+              <span *ngIf="hasError('status')" class="error-message">{{ getError('status') }}</span>
+            </div>
+          </div>
+
+          <!-- Right side: Name fields + Email -->
+          <div class="avatar-right">
+            <!-- Name row: First Name and Last Name -->
+            <div class="name-row">
+              <div class="form-group">
+                <label for="firstName">
+                  <i class="fas fa-user"></i>
+                  Nome *
+                  <span class="max-length-hint">max 30 caratteri</span>
+                </label>
+                <div class="input-with-icon">
+                  <input
+                    type="text"
+                    id="firstName"
+                    [value]="formData().firstName"
+                    (input)="updateFormField('firstName', $any($event.target).value)"
+                    placeholder="Mario"
+                    class="form-input"
+                    [class.error]="hasError('firstName')"
+                    [class.valid]="isFieldValid('firstName')"
+                    required>
+                  <i *ngIf="isFieldValid('firstName')" class="fas fa-check-circle validation-icon"></i>
+                </div>
+                <span *ngIf="hasError('firstName')" class="error-message">{{ getError('firstName') }}</span>
+              </div>
+
+              <div class="form-group">
+                <label for="lastName">
+                  <i class="fas fa-user"></i>
+                  Cognome *
+                  <span class="max-length-hint">max 30 caratteri</span>
+                </label>
+                <div class="input-with-icon">
+                  <input
+                    type="text"
+                    id="lastName"
+                    [value]="formData().lastName"
+                    (input)="updateFormField('lastName', $any($event.target).value)"
+                    placeholder="Rossi"
+                    class="form-input"
+                    [class.error]="hasError('lastName')"
+                    [class.valid]="isFieldValid('lastName')"
+                    required>
+                  <i *ngIf="isFieldValid('lastName')" class="fas fa-check-circle validation-icon"></i>
+                </div>
+                <span *ngIf="hasError('lastName')" class="error-message">{{ getError('lastName') }}</span>
+              </div>
+            </div>
+
+            <!-- Email -->
+            <div class="form-group">
+              <label for="email">
+                <i class="fas fa-envelope"></i>
+                Email *
+                <span class="max-length-hint">max 100 caratteri</span>
+              </label>
+              <div class="input-with-icon">
+                <input
+                  type="email"
+                  id="email"
+                  [value]="formData().email"
+                  (input)="updateFormField('email', $any($event.target).value)"
+                  placeholder="es. mario.rossi@company.com"
+                  class="form-input"
+                  [class.error]="hasError('email')"
+                  [class.valid]="isFieldValid('email')"
+                  required>
+                <i *ngIf="isFieldValid('email')" class="fas fa-check-circle validation-icon"></i>
+              </div>
+              <span *ngIf="hasError('email')" class="error-message">{{ getError('email') }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- User Details -->
+      <div class="details-section">
+        <h3 class="section-title">
+          <i class="fas fa-info-circle"></i>
+          Informazioni Utente
+        </h3>
+
+        <form class="user-form">
+          <!-- Username -->
+          <div class="form-group form-group-small">
+            <label for="username">
+              <i class="fas fa-at"></i>
+              Username *
+              <span class="max-length-hint">max 30 caratteri</span>
+            </label>
+            <div class="input-with-icon">
+              <input
+                type="text"
+                id="username"
+                [value]="formData().username"
+                (input)="updateFormField('username', $any($event.target).value)"
+                placeholder="es. mario.rossi"
+                class="form-input"
+                [class.error]="hasError('username')"
+                [class.valid]="isFieldValid('username')"
+                required>
+              <i *ngIf="isFieldValid('username')" class="fas fa-check-circle validation-icon"></i>
+            </div>
+            <span *ngIf="hasError('username')" class="error-message">{{ getError('username') }}</span>
+          </div>
+
+          <!-- Password -->
+          <div class="form-group form-group-small">
+            <label for="password">
+              <i class="fas fa-lock"></i>
+              Password {{ user ? '' : '*' }}
+              <span class="max-length-hint">min 8 caratteri</span>
+            </label>
+            <div class="input-with-icon">
+              <input
+                type="password"
+                id="password"
+                [value]="password()"
+                (input)="onPasswordChange($any($event.target).value)"
+                placeholder="••••••••"
+                class="form-input"
+                [class.error]="hasError('password')"
+                [class.valid]="isFieldValid('password')"
+                [required]="!user">
+              <i *ngIf="isFieldValid('password')" class="fas fa-check-circle validation-icon"></i>
+            </div>
+            <span *ngIf="hasError('password')" class="error-message">{{ getError('password') }}</span>
+          </div>
+
+          <!-- Password Expiry with Never Expires -->
+          <div class="form-group form-group-double">
+            <div class="password-expiry-wrapper">
+              <div class="expiry-field">
+                <label for="passwordExpiry">
+                  <i class="fas fa-calendar-alt"></i>
+                  Validità (gg)
+                </label>
+                <input
+                  type="number"
+                  id="passwordExpiry"
+                  [value]="passwordExpireDays()"
+                  (input)="passwordExpireDays.set(+$any($event.target).value)"
+                  [disabled]="passwordNeverExpires()"
+                  min="1"
+                  max="365"
+                  class="form-input"
+                  placeholder="90">
+              </div>
+              <div class="expiry-checkbox">
+                <label class="checkbox-label">
+                  <input
+                    type="checkbox"
+                    [checked]="passwordNeverExpires()"
+                    (change)="passwordNeverExpires.set($any($event.target).checked)"
+                    class="checkbox-input">
+                  <span>Senza scadenza</span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Role -->
+          <div class="form-group form-group-role">
+            <label for="role">
+              <i class="fas fa-user-tag"></i>
+              Ruolo *
+            </label>
+            <app-custom-select
+              [options]="roleOptionsFromAPI()"
+              [placeholder]="'Seleziona un ruolo'"
+              [(ngModel)]="formData().role"
+              (ngModelChange)="updateFormField('role', $event)"
+              name="role"
+              [class.error]="hasError('role')">
+            </app-custom-select>
+            <span *ngIf="hasError('role')" class="error-message">{{ getError('role') }}</span>
+          </div>
+
+          <!-- Department -->
+          <div class="form-group">
+            <label for="department">
+              <i class="fas fa-building"></i>
+              Dipartimento *
+            </label>
+            <app-custom-select
+              [options]="departmentOptions()"
+              [placeholder]="'Seleziona un dipartimento'"
+              [(ngModel)]="formData().department"
+              (ngModelChange)="updateFormField('department', $event)"
+              name="department"
+              [class.error]="hasError('department')">
+            </app-custom-select>
+            <span *ngIf="hasError('department')" class="error-message">{{ getError('department') }}</span>
+          </div>
+
+        </form>
+      </div>
+
+      <!-- Access Areas -->
+      <div class="access-areas-section">
+        <h3 class="section-title">
+          <i class="fas fa-key"></i>
+          Aree di Accesso *
+        </h3>
+
+        <div class="access-areas" [class.error]="hasError('accessAreas')">
+          <div
+            *ngFor="let area of accessAreas()"
+            class="access-area-card"
+            [class.selected]="isAccessAreaSelected(area.id)"
+            [style.border-color]="getAreaColor(area.id)">
+
+            <!-- Header with checkbox -->
+            <div class="area-header">
+              <label class="area-checkbox" (click)="$event.stopPropagation()">
+                <input
+                  type="checkbox"
+                  [checked]="isAccessAreaSelected(area.id)"
+                  (change)="toggleAccessArea(area.id)">
+                <span class="checkbox-custom" [style.border-color]="getAreaColor(area.id)">
+                  <i *ngIf="isAccessAreaSelected(area.id)" class="fas fa-check" [style.color]="getAreaColor(area.id)"></i>
+                </span>
+              </label>
+            </div>
+
+            <!-- Icon and Label -->
+            <div class="area-content" (click)="toggleAccessArea(area.id)">
+              <div class="access-area-icon" [style.background-color]="getAreaColor(area.id)">
+                <i [class]="area.icon"></i>
+              </div>
+              <span class="area-label">{{ area.label }}</span>
+            </div>
+
+            <!-- Color picker -->
+            <div class="area-colors" (click)="$event.stopPropagation()">
+              <div class="color-dots">
+                <button
+                  *ngFor="let color of predefinedColors()"
+                  type="button"
+                  class="color-dot"
+                  [class.active]="getAreaColor(area.id) === color"
+                  [style.background-color]="color"
+                  (click)="setAreaColor(area.id, color)"
+                  [title]="color">
+                </button>
+                <label class="color-dot color-custom" [title]="'Colore personalizzato'">
+                  <input
+                    type="color"
+                    [value]="getAreaColor(area.id)"
+                    (input)="setAreaColor(area.id, $any($event.target).value)"
+                    class="color-input-hidden">
+                  <i class="fas fa-palette"></i>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <span *ngIf="hasError('accessAreas')" class="error-message">{{ getError('accessAreas') }}</span>
+
+        <!-- Selected Areas Badges -->
+        <div class="selected-areas">
+          <div class="selected-areas-label">
+            <i class="fas fa-check-circle"></i>
+            Aree selezionate:
+          </div>
+          <div class="selected-badges" *ngIf="getSelectedAccessAreasDetails().length > 0">
+            <span
+              *ngFor="let area of getSelectedAccessAreasDetails()"
+              class="selected-badge"
+              [style.background-color]="getAreaColor(area.id)">
+              <i [class]="area.icon"></i>
+              {{ area.label }}
+            </span>
+          </div>
+          <div class="no-areas-message" *ngIf="getSelectedAccessAreasDetails().length === 0">
+            <span>Nessuna area selezionata</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Avatar Selection Modal -->
+  <app-avatar-selection-modal
+    [isVisible]="showAvatarModal"
+    [currentAvatar]="selectedAvatar()"
+    [currentColor]="userColor()"
+    (closeModal)="closeAvatarModal()"
+    (selectAvatar)="onAvatarSelected($event)">
+  </app-avatar-selection-modal>
+
+  <!-- Footer -->
+  <div slot="footer" class="modal-footer-content">
+    <button type="button" class="btn btn-secondary" (click)="onClose()">
+      <i class="fas fa-times"></i>
+      Annulla
+    </button>
+    <button type="button" class="btn btn-primary" (click)="onSave()">
+      <i class="fas fa-save"></i>
+      {{ user ? 'Aggiorna' : 'Crea' }} Utente
+    </button>
+  </div>
+
+</app-base-modal>
